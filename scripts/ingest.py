@@ -1,22 +1,56 @@
 import csv
 import json
 import sys
+import time
 from pathlib import Path
 
+import chromadb
 import pymupdf
 from bs4 import BeautifulSoup
 
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(
+        0,
+        str(PROJECT_ROOT),
+    )
+
+
 from src.chunking import chunk_text
+from src.embeddings import embed_passages
+from src.bm25_index import (
+    BM25_INDEX_PATH,
+    build_bm25,
+    save_bm25_index,
+)
 
 
-MANIFEST_PATH = Path("data/sources_manifest.csv")
-RAW_DIR = Path("data/raw")
+MANIFEST_PATH = Path(
+    "data/sources_manifest.csv"
+)
+
+RAW_DIR = Path(
+    "data/raw"
+)
+
+INDEX_DIR = Path(
+    "data/index"
+)
+
+CHROMA_COLLECTION_NAME = (
+    "sentinelrag_chunks"
+)
+
+EMBEDDING_BATCH_SIZE = 32
 
 
 def load_manifest() -> list[dict]:
     if not MANIFEST_PATH.exists():
         raise FileNotFoundError(
-            f"Manifest not found: {MANIFEST_PATH}"
+            f"Manifest not found: "
+            f"{MANIFEST_PATH}"
         )
 
     with MANIFEST_PATH.open(
@@ -104,7 +138,8 @@ def extract_html(
     ):
         tag.decompose()
 
-    # Remove common navigation and breadcrumb containers.
+    # Remove common navigation and breadcrumb
+    # containers.
     unwanted_selectors = [
         ".breadcrumb",
         ".breadcrumbs",
@@ -136,17 +171,18 @@ def extract_html(
         strip=True,
     )
 
-    # Remove heading permalink artifacts used by
-    # documentation sites such as OWASP.
+    # Remove heading permalink artifacts used
+    # by documentation sites such as OWASP.
     text = text.replace(
         "¶",
         "",
     )
 
-    # Prefer starting from the first main page heading.
-    # This removes residual navigation or utility text
-    # that may appear before the real document content.
-    first_h1 = content_root.find("h1")
+    # Prefer starting from the first main page
+    # heading to remove residual navigation text.
+    first_h1 = content_root.find(
+        "h1"
+    )
 
     if first_h1:
         heading_text = first_h1.get_text(
@@ -217,7 +253,9 @@ def format_attack_pattern(
     ).strip()
 
     external_id = (
-        get_attack_external_id(obj)
+        get_attack_external_id(
+            obj
+        )
     )
 
     kill_chain_phases = []
@@ -239,12 +277,14 @@ def format_attack_pattern(
 
     if external_id:
         parts.append(
-            f"Technique ID: {external_id}"
+            f"Technique ID: "
+            f"{external_id}"
         )
 
     if name:
         parts.append(
-            f"Technique Name: {name}"
+            f"Technique Name: "
+            f"{name}"
         )
 
     if kill_chain_phases:
@@ -257,7 +297,8 @@ def format_attack_pattern(
 
     if description:
         parts.append(
-            f"Description:\n{description}"
+            f"Description:\n"
+            f"{description}"
         )
 
     return "\n\n".join(
@@ -282,12 +323,14 @@ def format_detection_strategy(
 
     if name:
         parts.append(
-            f"Detection Strategy: {name}"
+            f"Detection Strategy: "
+            f"{name}"
         )
 
     if description:
         parts.append(
-            f"Description:\n{description}"
+            f"Description:\n"
+            f"{description}"
         )
 
     return "\n\n".join(
@@ -304,7 +347,9 @@ def extract_mitre_json(
         "r",
         encoding="utf-8",
     ) as file:
-        data = json.load(file)
+        data = json.load(
+            file
+        )
 
     objects = data.get(
         "objects",
@@ -350,7 +395,10 @@ def extract_mitre_json(
 
             section_id = (
                 external_id
-                or obj.get("id", "")
+                or obj.get(
+                    "id",
+                    "",
+                )
             )
 
             units.append(
@@ -371,8 +419,10 @@ def extract_mitre_json(
             object_type
             == "x-mitre-detection-strategy"
         ):
-            text = format_detection_strategy(
-                obj
+            text = (
+                format_detection_strategy(
+                    obj
+                )
             )
 
             if not text:
@@ -398,14 +448,12 @@ def extract_mitre_json(
             detection_count += 1
 
     print(
-        "MITRE extraction summary:"
-    )
-    print(
-        f"  Techniques: "
+        "    MITRE techniques: "
         f"{technique_count}"
     )
+
     print(
-        f"  Detection strategies: "
+        "    MITRE detection strategies: "
         f"{detection_count}"
     )
 
@@ -437,7 +485,7 @@ def extract_source(
 
     if not file_path.exists():
         raise FileNotFoundError(
-            f"Source file not found: "
+            "Source file not found: "
             f"{file_path}"
         )
 
@@ -472,18 +520,8 @@ def chunk_extracted_units(
     units: list[dict],
 ) -> list[dict]:
     """
-    Convert extracted document units into deterministic,
+    Convert extracted units into deterministic,
     metadata-rich chunks.
-
-    Preserves:
-        source_id
-        source
-        title
-        page
-        section_id
-        document_type
-
-    Chunk size and overlap are controlled by src.config.
     """
     all_chunks = []
 
@@ -498,10 +536,6 @@ def chunk_extracted_units(
             "",
         )
 
-        # MITRE contains many independent sections inside
-        # one JSON file. Include the section ID in the
-        # internal deterministic-ID source key so chunks
-        # from different ATT&CK objects cannot collide.
         chunk_id_source = source
 
         if section_id:
@@ -525,22 +559,25 @@ def chunk_extracted_units(
         )
 
         for chunk in unit_chunks:
-            # Restore the real filename for citations
-            # while keeping the deterministic chunk ID
-            # already generated above.
             chunk["source"] = source
 
-            chunk["source_id"] = unit.get(
-                "source_id",
-                "",
+            chunk["source_id"] = (
+                unit.get(
+                    "source_id",
+                    "",
+                )
             )
 
-            chunk["document_type"] = unit.get(
-                "document_type",
-                "",
+            chunk["document_type"] = (
+                unit.get(
+                    "document_type",
+                    "",
+                )
             )
 
-            chunk["section_id"] = section_id
+            chunk["section_id"] = (
+                section_id
+            )
 
         all_chunks.extend(
             unit_chunks
@@ -549,17 +586,422 @@ def chunk_extracted_units(
     return all_chunks
 
 
+def chunk_to_metadata(
+    chunk: dict,
+) -> dict:
+    """
+    Convert chunk metadata into Chroma-compatible
+    scalar values.
+
+    Chroma metadata cannot contain None.
+    """
+    page = chunk.get(
+        "page"
+    )
+
+    if page is None:
+        page = -1
+
+    return {
+        "source_id": str(
+            chunk.get(
+                "source_id",
+                "",
+            )
+        ),
+        "source": str(
+            chunk.get(
+                "source",
+                "",
+            )
+        ),
+        "title": str(
+            chunk.get(
+                "title",
+                "",
+            )
+        ),
+        "document_type": str(
+            chunk.get(
+                "document_type",
+                "",
+            )
+        ),
+        "page": int(
+            page
+        ),
+        "section_id": str(
+            chunk.get(
+                "section_id",
+                "",
+            )
+        ),
+        "chunk_index": int(
+            chunk.get(
+                "chunk_index",
+                0,
+            )
+        ),
+        "token_count": int(
+            chunk.get(
+                "token_count",
+                0,
+            )
+        ),
+    }
+
+
+def create_clean_collection(
+    client,
+):
+    """
+    Delete the previous collection if it exists,
+    then create a fresh cosine-distance collection.
+    """
+    try:
+        client.get_collection(
+            CHROMA_COLLECTION_NAME
+        )
+
+    except Exception:
+        pass
+
+    else:
+        client.delete_collection(
+            CHROMA_COLLECTION_NAME
+        )
+
+    return client.create_collection(
+        name=CHROMA_COLLECTION_NAME,
+        metadata={
+            "hnsw:space": "cosine",
+        },
+    )
+
+
+def add_chunks_to_chroma(
+    collection,
+    chunks: list[dict],
+) -> None:
+    """
+    Embed and store chunks in manageable batches.
+    """
+    for start in range(
+        0,
+        len(chunks),
+        EMBEDDING_BATCH_SIZE,
+    ):
+        batch = chunks[
+            start:
+            start + EMBEDDING_BATCH_SIZE
+        ]
+
+        texts = [
+            chunk["text"]
+            for chunk in batch
+        ]
+
+        embeddings = embed_passages(
+            texts,
+            batch_size=EMBEDDING_BATCH_SIZE,
+            show_progress_bar=False,
+        )
+
+        collection.add(
+            ids=[
+                chunk["chunk_id"]
+                for chunk in batch
+            ],
+            documents=texts,
+            embeddings=embeddings.tolist(),
+            metadatas=[
+                chunk_to_metadata(
+                    chunk
+                )
+                for chunk in batch
+            ],
+        )
+
+
 def main() -> int:
-    rows = load_manifest()
+    start_time = time.perf_counter()
 
-    print(
-        f"Manifest sources: {len(rows)}"
-    )
-    print(
-        "Extraction module ready."
-    )
+    try:
+        rows = load_manifest()
 
-    return 0
+        if not rows:
+            print(
+                "ERROR: Manifest contains "
+                "no sources."
+            )
+            return 1
+
+        INDEX_DIR.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        print(
+            "SentinelRAG ingestion"
+        )
+        print(
+            "====================="
+        )
+        print(
+            f"Manifest sources: "
+            f"{len(rows)}"
+        )
+        print(
+            f"Embedding batch size: "
+            f"{EMBEDDING_BATCH_SIZE}"
+        )
+        print()
+
+        client = chromadb.PersistentClient(
+            path=str(
+                INDEX_DIR
+            )
+        )
+
+        collection = (
+            create_clean_collection(
+                client
+            )
+        )
+
+        documents_processed = 0
+        total_units = 0
+        total_chunks = 0
+
+        seen_chunk_ids = set()
+
+        # Keep exactly the same chunks used for Chroma
+        # so BM25 and vector retrieval cannot drift apart.
+        all_chunks = []
+
+        for index, row in enumerate(
+            rows,
+            start=1,
+        ):
+            source_id = row[
+                "source_id"
+            ].strip()
+
+            print(
+                f"[{index}/{len(rows)}] "
+                f"{source_id}"
+            )
+
+            units = extract_source(
+                row
+            )
+
+            chunks = (
+                chunk_extracted_units(
+                    units
+                )
+            )
+
+            if not units:
+                raise RuntimeError(
+                    "No extracted units for "
+                    f"{source_id}"
+                )
+
+            if not chunks:
+                raise RuntimeError(
+                    "No chunks generated for "
+                    f"{source_id}"
+                )
+
+            for chunk in chunks:
+                chunk_id = chunk[
+                    "chunk_id"
+                ]
+
+                if (
+                    chunk_id
+                    in seen_chunk_ids
+                ):
+                    raise RuntimeError(
+                        "Duplicate chunk ID "
+                        f"detected: {chunk_id}"
+                    )
+
+                seen_chunk_ids.add(
+                    chunk_id
+                )
+
+            # Store vectors in Chroma.
+            add_chunks_to_chroma(
+                collection,
+                chunks,
+            )
+
+            # Store the exact same chunks for BM25.
+            all_chunks.extend(
+                chunks
+            )
+
+            documents_processed += 1
+            total_units += len(
+                units
+            )
+            total_chunks += len(
+                chunks
+            )
+
+            print(
+                f"    Units: "
+                f"{len(units)}"
+            )
+
+            print(
+                f"    Chunks: "
+                f"{len(chunks)}"
+            )
+
+            print(
+                f"    Collection count: "
+                f"{collection.count()}"
+            )
+
+        stored_count = (
+            collection.count()
+        )
+
+        if (
+            documents_processed
+            != len(rows)
+        ):
+            raise RuntimeError(
+                "Not all manifest sources "
+                "were processed."
+            )
+
+        if stored_count != total_chunks:
+            raise RuntimeError(
+                "Chroma count does not match "
+                "generated chunks."
+            )
+
+        if (
+            len(seen_chunk_ids)
+            != total_chunks
+        ):
+            raise RuntimeError(
+                "Chunk IDs are not globally unique."
+            )
+
+        if len(all_chunks) != total_chunks:
+            raise RuntimeError(
+                "BM25 source chunk count does not "
+                "match generated chunks."
+            )
+
+        print()
+        print(
+            "Building BM25 index..."
+        )
+
+        bm25_index = build_bm25(
+            all_chunks
+        )
+
+        save_bm25_index(
+            bm25_index
+        )
+
+        bm25_chunk_count = len(
+            bm25_index[
+                "chunks"
+            ]
+        )
+
+        if (
+            bm25_chunk_count
+            != total_chunks
+        ):
+            raise RuntimeError(
+                "BM25 chunk count does not match "
+                "generated chunks."
+            )
+
+        if not BM25_INDEX_PATH.exists():
+            raise RuntimeError(
+                "BM25 index file was not created."
+            )
+
+        elapsed = (
+            time.perf_counter()
+            - start_time
+        )
+
+        print()
+        print(
+            "Ingestion summary"
+        )
+        print(
+            "-----------------"
+        )
+        print(
+            "Documents processed: "
+            f"{documents_processed}"
+        )
+        print(
+            "Units extracted:      "
+            f"{total_units}"
+        )
+        print(
+            "Chunks generated:     "
+            f"{total_chunks}"
+        )
+        print(
+            "Chroma chunks stored: "
+            f"{stored_count}"
+        )
+        print(
+            "BM25 chunks indexed:  "
+            f"{bm25_chunk_count}"
+        )
+        print(
+            "Unique chunk IDs:     "
+            f"{len(seen_chunk_ids)}"
+        )
+        print(
+            "BM25 index path:      "
+            f"{BM25_INDEX_PATH}"
+        )
+        print(
+            "Elapsed seconds:      "
+            f"{elapsed:.2f}"
+        )
+
+        print()
+        print(
+            "Hybrid ingestion PASSED."
+        )
+
+        return 0
+
+    except Exception as exc:
+        print()
+        print(
+            "INGESTION FAILED:"
+        )
+        print(
+            f"{type(exc).__name__}: "
+            f"{exc}"
+        )
+
+        return 10
+
+    finally:
+        if "client" in locals():
+            try:
+                client.close()
+            except Exception:
+                pass
 
 
 if __name__ == "__main__":
