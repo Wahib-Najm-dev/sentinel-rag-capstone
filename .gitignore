@@ -1,0 +1,52 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+
+# IDE / editor
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Streamlit local secrets
+.streamlit/secrets.toml
+
+# Local model / cache files
+.cache/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Downloaded corpus files
+data/raw/*
+!data/raw/.gitkeep
+
+# Generated vector / lexical indexes
+data/index/*
+!data/index/.gitkeep
