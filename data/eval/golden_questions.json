@@ -1,0 +1,399 @@
+[
+  {
+    "id": "q01",
+    "question": "What are the main activities organizations should perform when responding to a cybersecurity incident?",
+    "topic": "incident_response",
+    "gold_source_ids": [
+      "nist_sp800_61r3"
+    ],
+    "gold_chunk_ids": [
+      "8d37e8c0bc18ca3ad958815c"
+    ],
+    "notes": "Manually verified against NIST SP 800-61r3, page 15."
+  },
+  {
+    "id": "q02",
+    "question": "How should incident response activities be coordinated with cybersecurity risk management?",
+    "topic": "incident_response",
+    "gold_source_ids": [
+      "nist_sp800_61r3"
+    ],
+    "gold_chunk_ids": [
+      "afefd11c0fcc9a6e6a3c78f1"
+    ],
+    "notes": "Manually verified against NIST SP 800-61r3, page 13."
+  },
+  {
+    "id": "q03",
+    "question": "What immediate containment actions can organizations take after detecting ransomware to limit its spread and impact?",
+    "topic": "ransomware_response",
+    "gold_source_ids": [
+      "cisa_stopransomware"
+    ],
+    "gold_chunk_ids": [
+      "117a56bc925f10a06a5882f8"
+    ],
+    "notes": "Manually verified against CISA StopRansomware guidance. Selected because the chunk directly describes immediate containment actions after ransomware detection, including network isolation, coordinated system isolation, out-of-band communication, and powering down devices when disconnection is not possible."
+  },
+  {
+    "id": "q04",
+    "question": "What measures can organizations use to protect important assets from ransomware and destructive events?",
+    "topic": "ransomware_protection",
+    "gold_source_ids": [
+      "nist_sp1800_25"
+    ],
+    "gold_chunk_ids": [
+      "747bba6062b5e56f3f85bd22"
+    ],
+    "notes": "Manually verified against NIST SP 1800-25B, extracted page 34. Selected because the chunk directly lists protective capabilities for important enterprise assets, including integrity monitoring, logging, backups, secure storage, network protection, and denylisting."
+  },
+  {
+    "id": "q05",
+    "question": "What should organizations consider when validating and prioritizing the recovery of data and systems after a ransomware or destructive event?",
+    "topic": "ransomware_recovery",
+    "gold_source_ids": [
+      "nist_sp1800_11",
+      "nist_sp800_184"
+    ],
+    "gold_chunk_ids": [
+      "c4c42d566678013a0903cf53",
+      "fe2f2d1c83c35c36002827a3"
+    ],
+    "notes": "Manually verified against NIST SP 1800-11B, extracted page 28, and NIST SP 800-184, extracted page 13. The selected evidence covers validating recovered data as the last known good state and prioritizing restoration according to mission importance and system interdependencies."
+  },
+  {
+    "id": "q06",
+    "question": "How can organizations use the Cybersecurity Framework to assess readiness and prioritize ransomware risk reduction?",
+    "topic": "ransomware_risk",
+    "gold_source_ids": [
+      "nist_ir8374r1"
+    ],
+    "gold_chunk_ids": [
+      "6d4ca857480ded8951a4084c"
+    ],
+    "notes": "Manually verified against NIST IR 8374r1, extracted page 11. Selected because the chunk explains using the Ransomware Community Profile to align requirements, objectives, risk appetite, and resources with the CSF, assess current readiness, define a target profile, and identify improvement gaps."
+  },
+  {
+    "id": "q07",
+    "question": "What measures can organizations implement to reduce successful credential-phishing attacks?",
+    "topic": "phishing",
+    "gold_source_ids": [
+      "cisa_phishing_guidance"
+    ],
+    "gold_chunk_ids": [
+      "c2eaebdf1c6dd4ac765a5ca5",
+      "385f704d993f11f0fd179c47",
+      "9ce53e41fbbf784648dae5e5"
+    ],
+    "notes": "Manually verified against CISA Phishing Guidance, extracted pages 6-7. The selected evidence directly recommends organizational controls for reducing successful credential phishing, including user training, DMARC, internal mail monitoring, malicious-site blocking, phishing-resistant MFA, SSO, and monitoring suspicious MFA activity."
+  },
+  {
+    "id": "q08",
+    "question": "What key response considerations should organizations address when identifying, analyzing, prioritizing, and containing malware incidents on desktops or laptops?",
+    "topic": "malware",
+    "gold_source_ids": [
+      "nist_sp800_83r1"
+    ],
+    "gold_chunk_ids": [
+      "5fefb684f2eeec739da2b4cd"
+    ],
+    "notes": "Manually verified against NIST SP 800-83r1, extracted page 10. Selected because the chunk directly covers identifying infected hosts, prioritizing malware incidents, analyzing malware behavior, and containment considerations."
+  },
+  {
+    "id": "q09",
+    "question": "How can a forensic capability help organizations reconstruct cybersecurity incidents and support response decisions?",
+    "topic": "digital_forensics",
+    "gold_source_ids": [
+      "nist_sp800_86"
+    ],
+    "gold_chunk_ids": [
+      "7e3f77fb411066f6796183e7"
+    ],
+    "notes": "Manually verified against NIST SP 800-86, extracted page 97. Selected because the chunk directly explains that forensic capabilities support reconstruction of computer security incidents, determination of what occurred, and evidence-based decision making."
+  },
+  {
+    "id": "q10",
+    "question": "Why is preserving evidence important during incident response and forensic analysis?",
+    "topic": "digital_forensics",
+    "gold_source_ids": [
+      "nist_sp800_86"
+    ],
+    "gold_chunk_ids": [
+      "31a086ff61e582bb972812cd"
+    ],
+    "notes": "Manually verified against NIST SP 800-86, extracted page 22. Selected because the chunk explains evidence admissibility, proper evidence handling, integrity preservation, chain of custody, secure storage, and incident documentation."
+  },
+  {
+    "id": "q11",
+    "question": "What should investigators consider when preserving, handling, and extracting evidence from mobile devices?",
+    "topic": "mobile_forensics",
+    "gold_source_ids": [
+      "nist_sp800_101r1"
+    ],
+    "gold_chunk_ids": [
+      "818034b957caaa583b3446d0"
+    ],
+    "notes": "Manually verified against NIST SP 800-101r1, extracted page 10. Selected because the chunk directly frames the key forensic questions of preserving evidence, handling the mobile device, extracting relevant data, and understanding device hardware and software characteristics."
+  },
+  {
+    "id": "q12",
+    "question": "What application security events should organizations consider logging for security monitoring and incident investigation?",
+    "topic": "logging",
+    "gold_source_ids": [
+      "owasp_logging"
+    ],
+    "gold_chunk_ids": [
+      "62a947c5ac1e3eb9b252bab1",
+      "b5a5d0e4c638067e91e8ede3"
+    ],
+    "notes": "Manually verified against the OWASP Logging Cheat Sheet. The selected chunks span the recommended application-security event list, including validation failures, authentication and authorization events, session failures, application errors, administrative activity, sensitive-data access, cryptographic activity, network failures, and suspicious business-logic behavior."
+  },
+  {
+    "id": "q13",
+    "question": "Why is application logging important for detecting and investigating security incidents?",
+    "topic": "application_logging",
+    "gold_source_ids": [
+      "owasp_logging"
+    ],
+    "gold_chunk_ids": [
+      "e6214dc3f4361496f90d1921",
+      "b51e97c9975945ab09d3c21d"
+    ],
+    "notes": "Manually verified against the OWASP Logging Cheat Sheet. The selected evidence explains that application logging provides application-specific context not always available from infrastructure logs and supports security monitoring, incident detection, audit trails, reconstruction, and incident investigation."
+  },
+  {
+    "id": "q14",
+    "question": "What is the purpose of information security continuous monitoring?",
+    "topic": "continuous_monitoring",
+    "gold_source_ids": [
+      "nist_sp800_137"
+    ],
+    "gold_chunk_ids": [
+      "4bbb208f2b60dd223a7463d1"
+    ],
+    "notes": "Manually verified against NIST SP 800-137, extracted page 10. Selected because the Purpose section directly explains that information security continuous monitoring provides awareness of threats and vulnerabilities, visibility into organizational assets, information about security-control effectiveness, and support for ongoing risk-management decisions."
+  },
+  {
+    "id": "q15",
+    "question": "What security controls can strengthen web application authentication against credential compromise and automated login attacks?",
+    "topic": "authentication",
+    "gold_source_ids": [
+      "owasp_authentication"
+    ],
+    "gold_chunk_ids": [
+      "243b19f895f7a8d5d6ffaef7",
+      "8c1e8f8acf8189e5a88a3aa1",
+      "98aff56942ef036b8ae8bc7e"
+    ],
+    "notes": "Manually verified against the OWASP Authentication Cheat Sheet. The selected evidence covers secure password storage and comparison, multifactor authentication, login throttling and account lockout, current-password verification, strong transport protection, and re-authentication for sensitive operations."
+  },
+  {
+    "id": "q16",
+    "question": "Why does multifactor authentication significantly reduce the risk of password-related account compromise?",
+    "topic": "mfa",
+    "gold_source_ids": [
+      "owasp_mfa"
+    ],
+    "gold_chunk_ids": [
+      "65f4c7744752090789cdf314",
+      "0b3c1dcb836ee5636de046d1"
+    ],
+    "notes": "Manually verified against the OWASP Multifactor Authentication Cheat Sheet. The selected evidence explains that MFA requires independent authentication factors and provides strong protection when passwords are weak, reused, stolen, or otherwise compromised, including against brute-force, credential-stuffing, and password-spraying attacks."
+  },
+  {
+    "id": "q17",
+    "question": "What defensive controls can help prevent credential stuffing attacks?",
+    "topic": "credential_stuffing",
+    "gold_source_ids": [
+      "owasp_credential_stuffing"
+    ],
+    "gold_chunk_ids": [
+      "5bc8945cc41a84312c34c359",
+      "2bbce62afada2c22398c3411",
+      "d0c5dfa059e06c6c580a5c6f"
+    ],
+    "notes": "Manually verified against the OWASP Credential Stuffing Prevention Cheat Sheet. The selected evidence covers MFA, CAPTCHA, graduated multi-layer mitigation, IP and proxy intelligence, and other controls used to reduce automated credential-stuffing attempts."
+  },
+  {
+    "id": "q18",
+    "question": "What controls should secure forgot-password requests and password-reset tokens?",
+    "topic": "account_recovery",
+    "gold_source_ids": [
+      "owasp_forgot_password"
+    ],
+    "gold_chunk_ids": [
+      "049b84641ef435be1bb185ce",
+      "9ac9156f3eec1dc42c503e50"
+    ],
+    "notes": "Manually verified against the OWASP Forgot Password Cheat Sheet. The selected evidence covers preventing account enumeration, limiting automated reset requests, and securely generating, binding, expiring, and invalidating password-reset tokens and codes."
+  },
+  {
+    "id": "q19",
+    "question": "What controls help protect web application session identifiers from interception, theft, and fixation?",
+    "topic": "session_security",
+    "gold_source_ids": [
+      "owasp_session_management"
+    ],
+    "gold_chunk_ids": [
+      "2530a275d5a5d8a46ed0bb60",
+      "340dad1eaa8b80ffb1908d26",
+      "7515d743656fe07bd020ab23"
+    ],
+    "notes": "Manually verified against the OWASP Session Management Cheat Sheet. The selected evidence covers HTTPS and the Secure cookie attribute to prevent session-ID interception, HttpOnly to reduce session-ID theft through scripts, and session-ID regeneration after privilege changes to prevent session fixation."
+  },
+  {
+    "id": "q20",
+    "question": "What core security controls should REST APIs implement for transport security, access control, input validation, and abuse prevention?",
+    "topic": "api_security",
+    "gold_source_ids": [
+      "owasp_rest_security"
+    ],
+    "gold_chunk_ids": [
+      "16d6ce82655e8e86ed8ef66d",
+      "7c3820e813dca29a8f71b07c",
+      "d79ce7a5fd79326897d3c448"
+    ],
+    "notes": "Manually verified against the OWASP REST Security Cheat Sheet. The selected evidence covers HTTPS-only endpoints, authentication and authorization at API endpoints, input and content validation, API-key protections, rate limiting, and the limitation of API keys as a sole control for high-value resources."
+  },
+  {
+    "id": "q21",
+    "question": "What are the main principles of a Zero Trust Architecture?",
+    "topic": "zero_trust",
+    "gold_source_ids": [
+      "nist_sp800_207"
+    ],
+    "gold_chunk_ids": [
+      "7aadb67ab49229ea7e62d9ac",
+      "3e070ebdc5470e95362ef937"
+    ],
+    "notes": "Manually verified against NIST SP 800-207, extracted pages 13 and 4. The selected evidence explains least-privilege per-request access decisions, the assumption that the network may be compromised, the absence of implicit trust based on network location or ownership, authentication and authorization before resource access, and protection of resources rather than network segments."
+  },
+  {
+    "id": "q22",
+    "question": "What factors and rules should organizations consider before sharing cyber threat information with other parties?",
+    "topic": "threat_intelligence",
+    "gold_source_ids": [
+      "nist_sp800_150"
+    ],
+    "gold_chunk_ids": [
+      "3bbfde84a81f5b10bc44b3b8",
+      "cd06a38f76cc48a92f18478c",
+      "b7ccfef05988bb96bffe4d93"
+    ],
+    "notes": "Manually verified against NIST SP 800-150, including extracted pages 18 and 7. The selected evidence covers recipient trust, information sensitivity, privacy and legal requirements, approved recipients, redaction and sanitization, attribution rules, handling designations, advance sharing agreements, and protection of sensitive information such as PII."
+  },
+  {
+    "id": "q23",
+    "question": "What guidance does NIST provide for planning, executing, and following up on information security assessments?",
+    "topic": "security_testing",
+    "gold_source_ids": [
+      "nist_sp800_115"
+    ],
+    "gold_chunk_ids": [
+      "ce33b6ff2a48d60facaa91c0",
+      "ee43c27927da4c48d47d1b41",
+      "e53f51d78867902fa4d95eb6"
+    ],
+    "notes": "Manually verified against NIST SP 800-115. The selected evidence covers assessment planning, including policy, scope, methodology, logistics and legal considerations; assessment execution according to the plan or rules of engagement; coordination and data handling; and post-assessment analysis of findings, root causes, and mitigation actions."
+  },
+  {
+    "id": "q24",
+    "question": "How does the NIST Cybersecurity Framework help organizations manage cybersecurity risk?",
+    "topic": "risk_management",
+    "gold_source_ids": [
+      "nist_csf2"
+    ],
+    "gold_chunk_ids": [
+      "9d2ab5cf64ae88eca613b486",
+      "aa2208bf1a78ddd9c4ee7ced"
+    ],
+    "notes": "Manually verified against NIST CSF 2.0, extracted pages 2 and 11. The selected evidence explains that the CSF helps organizations understand, assess, prioritize, and communicate cybersecurity risks and outcomes, while Organizational Profiles describe current and target cybersecurity posture and support prioritized risk-management actions."
+  },
+  {
+    "id": "q25",
+    "question": "How does recovery planning help organizations restore services and capabilities securely and in a timely manner after a cybersecurity event?",
+    "topic": "cybersecurity_recovery",
+    "gold_source_ids": [
+      "nist_sp800_184"
+    ],
+    "gold_chunk_ids": [
+      "2678a15539315d3f0c0c1914",
+      "7a179fb40ca4c218c9197025",
+      "a68a1f3968244c60e85da128"
+    ],
+    "notes": "Manually verified against NIST SP 800-184. The selected evidence explains that recovery planning supports timely and secure restoration of impaired services and capabilities, prioritizes restoration according to mission and service needs, coordinates recovery with incident response, and uses exercises, stakeholder feedback, and lessons learned to validate and improve recovery plans and capabilities."
+  },
+  {
+    "id": "q26",
+    "question": "What does MITRE ATT&CK technique T1055.011 describe?",
+    "topic": "mitre_attack",
+    "gold_source_ids": [
+      "mitre_attack_enterprise_techniques"
+    ],
+    "gold_chunk_ids": [
+      "65cf78a90c1b77b0baf4296b"
+    ],
+    "gold_section_ids": [
+      "T1055.011"
+    ],
+    "notes": "Manually verified against MITRE ATT&CK technique T1055.011, Extra Window Memory Injection. The selected chunk directly describes adversaries using Extra Window Memory to execute malicious code in the address space of another live process, potentially evading process-based defenses and elevating privileges."
+  },
+  {
+    "id": "q27",
+    "question": "What behaviors and telemetry can defenders monitor to detect Extra Window Memory Injection on Windows?",
+    "topic": "mitre_detection",
+    "gold_source_ids": [
+      "mitre_attack_enterprise_techniques"
+    ],
+    "gold_chunk_ids": [
+      "c6dcec1b09a4a9fbf67488a3"
+    ],
+    "notes": "Manually verified against MITRE ATT&CK Analytic 0608 for Extra Window Memory Injection. The selected analytic describes detecting manipulation of EWM through SetWindowLong or SetClassLong, redirection of function pointers to injected shellcode in shared memory, and execution through window messages such as SendNotifyMessage. Relevant telemetry includes Sysmon Event ID 10, Microsoft-Windows-Win32k ETW events, and Windows Security Event ID 4688. The related detection-strategy chunk contains only the strategy title, so it is not used as Gold evidence.",
+    "gold_section_ids": [
+      "x-mitre-analytic--6ec034ac-289d-48d1-b310-021dfbf7087b"
+    ]
+  },
+  {
+    "id": "q28",
+    "question": "What does MITRE ATT&CK describe about the Process Injection technique family?",
+    "topic": "mitre_attack",
+    "gold_source_ids": [
+      "mitre_attack_enterprise_techniques"
+    ],
+    "gold_chunk_ids": [
+      "285bfe6adec51319dc08d2e3"
+    ],
+    "gold_section_ids": [
+      "T1055"
+    ],
+    "notes": "Manually verified against MITRE ATT&CK technique T1055, Process Injection. The selected parent-technique chunk explains that adversaries execute arbitrary code in the address space of another live process to evade process-based defenses and potentially elevate privileges. It also notes that process injection has many platform-specific implementations and may be chained multiple times to further evade detection."
+  },
+  {
+    "id": "q29",
+    "question": "How should FCEB agencies coordinate incident response and vulnerability response when exploitation of a vulnerability is discovered?",
+    "topic": "incident_operations",
+    "gold_source_ids": [
+      "cisa_ir_playbook"
+    ],
+    "gold_chunk_ids": [
+      "aa53c78edf1b85d5ea4414ed",
+      "b72ed77d48353c6f8bb2b6d8",
+      "41ab484972c8b22d829b3784"
+    ],
+    "notes": "Manually verified against the CISA Incident and Vulnerability Response Playbooks for FCEB agencies. The selected evidence covers the explicit connective coordination between incident and vulnerability response activities. If vulnerability evaluation finds signs of exploitation, incident response should begin immediately; conversely, if incident response determines that a specific vulnerability was exploited, the Vulnerability Response Playbook should be initiated during eradication to address the vulnerability."
+  },
+  {
+    "id": "q30",
+    "question": "What information from logs can help responders understand the scope and impact of an active cybersecurity incident?",
+    "topic": "incident_logging",
+    "gold_source_ids": [
+      "nist_sp1800_26",
+      "nist_sp800_92"
+    ],
+    "gold_chunk_ids": [
+      "c157f3832d9357297b18ca6a",
+      "73dd72f1d001e71df3f14d30"
+    ],
+    "notes": "Manually verified against NIST SP 1800-26 and NIST SP 800-92. The selected evidence explains that logs can identify affected systems and the programs causing an active event, help guide mitigation and remediation decisions, and allow responders to compare infrastructure and system logs to determine what data was changed or removed and what an attacker may have attempted to conceal."
+  }
+]

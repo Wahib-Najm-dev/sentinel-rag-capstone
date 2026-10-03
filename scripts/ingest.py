@@ -337,6 +337,86 @@ def format_detection_strategy(
         parts
     ).strip()
 
+def format_mitre_analytic(
+    obj: dict,
+) -> str:
+    name = obj.get(
+        "name",
+        "",
+    ).strip()
+
+    description = obj.get(
+        "description",
+        "",
+    ).strip()
+
+    log_sources = []
+
+    for log_source in obj.get(
+        "x_mitre_log_source_references",
+        [],
+    ):
+        if not isinstance(
+            log_source,
+            dict,
+        ):
+            continue
+
+        source_name = str(
+            log_source.get(
+                "name",
+                "",
+            )
+        ).strip()
+
+        channel = str(
+            log_source.get(
+                "channel",
+                "",
+            )
+        ).strip()
+
+        if source_name and channel:
+            log_sources.append(
+                f"{source_name} | {channel}"
+            )
+        elif source_name:
+            log_sources.append(
+                source_name
+            )
+        elif channel:
+            log_sources.append(
+                channel
+            )
+
+    parts = []
+
+    if name:
+        parts.append(
+            f"Detection Analytic: "
+            f"{name}"
+        )
+
+    if description:
+        parts.append(
+            f"Description:\n"
+            f"{description}"
+        )
+
+    if log_sources:
+        parts.append(
+            "Log Sources:\n"
+            + "\n".join(
+                f"- {log_source}"
+                for log_source
+                in log_sources
+            )
+        )
+
+    return "\n\n".join(
+        parts
+    ).strip()
+
 
 def extract_mitre_json(
     file_path: Path,
@@ -360,6 +440,7 @@ def extract_mitre_json(
 
     technique_count = 0
     detection_count = 0
+    analytic_count = 0
 
     for obj in objects:
         object_type = obj.get(
@@ -447,6 +528,33 @@ def extract_mitre_json(
 
             detection_count += 1
 
+        elif object_type == "x-mitre-analytic":
+            text = format_mitre_analytic(
+                obj
+            )
+
+            if not text:
+                continue
+
+            section_id = obj.get(
+                "id",
+                "",
+            )
+
+            units.append(
+                {
+                    "source_id": source_id,
+                    "source": file_path.name,
+                    "title": title,
+                    "document_type": "JSON",
+                    "page": None,
+                    "section_id": section_id,
+                    "text": text,
+                }
+            )
+
+            analytic_count += 1
+
     print(
         "    MITRE techniques: "
         f"{technique_count}"
@@ -455,6 +563,11 @@ def extract_mitre_json(
     print(
         "    MITRE detection strategies: "
         f"{detection_count}"
+    )
+
+    print(
+        "    MITRE analytics: "
+        f"{analytic_count}"
     )
 
     return units
