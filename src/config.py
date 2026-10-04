@@ -35,7 +35,7 @@ TOKENIZERS_PARALLELISM = os.getenv("TOKENIZERS_PARALLELISM", "false")
 
 
 # Retrieval configuration
-VECTOR_TOP_K = 20
+VECTOR_TOP_K = 25
 BM25_TOP_K = 20
 TOP_N = 5
 

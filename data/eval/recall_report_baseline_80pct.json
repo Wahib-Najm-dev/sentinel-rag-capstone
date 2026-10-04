@@ -1,0 +1,2639 @@
+{
+  "project": "SentinelRAG",
+  "metric": "Recall@5",
+  "metric_definition": "Question-level hit rate. A Golden Question is a hit when at least one gold_chunk_id appears in the final reranked Top 5 evidence.",
+  "created_at_utc": "2026-10-04T00:11:57.932202+00:00",
+  "evaluation_signature": "2e558f79ae50e36b898e1caaffafb04748f3d6b5722bf799a43cd31083b1f56b",
+  "configuration": {
+    "questions": 30,
+    "vector_top_k": 20,
+    "bm25_top_k": 20,
+    "rrf_k": 60,
+    "rerank_top_n": 5,
+    "embedding_model": "intfloat/multilingual-e5-small",
+    "rerank_model": "rerank-v3.5",
+    "chroma_chunks": 7570,
+    "bm25_chunks": 7570
+  },
+  "summary": {
+    "hits": 24,
+    "misses": 6,
+    "questions": 30,
+    "recall_at_5": 0.8,
+    "recall_at_5_percent": 80.0,
+    "required_min_hits": 25,
+    "requirement": "Recall@5 > 80%",
+    "passed": false,
+    "missed_question_ids": [
+      "q01",
+      "q02",
+      "q03",
+      "q04",
+      "q12",
+      "q14"
+    ]
+  },
+  "results": [
+    {
+      "id": "q01",
+      "question": "What are the main activities organizations should perform when responding to a cybersecurity incident?",
+      "topic": "incident_response",
+      "gold_source_ids": [
+        "nist_sp800_61r3"
+      ],
+      "gold_chunk_ids": [
+        "8d37e8c0bc18ca3ad958815c"
+      ],
+      "fused_candidate_count": 37,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "2e68c9413d9374e35f5d0e98",
+        "08b7d9cfc1cb933d652c8b28",
+        "ccb667fd84652c47ea4fc37d",
+        "a59b100f96472d08613d96d8",
+        "62067dc7a4896a3683927594"
+      ],
+      "matched_gold_chunk_ids": [],
+      "hit": false,
+      "final_evidence": [
+        {
+          "chunk_id": "2e68c9413d9374e35f5d0e98",
+          "source_id": "nist_sp800_61r3",
+          "page": 14,
+          "section_id": "",
+          "vector_rank": 5,
+          "bm25_rank": 17,
+          "rrf_rank": 2,
+          "rrf_score": 0.028371628371628373,
+          "rerank_rank": 1,
+          "rerank_score": 0.8479807
+        },
+        {
+          "chunk_id": "08b7d9cfc1cb933d652c8b28",
+          "source_id": "nist_sp800_61r3",
+          "page": 34,
+          "section_id": "",
+          "vector_rank": 18,
+          "bm25_rank": 15,
+          "rrf_rank": 3,
+          "rrf_score": 0.026153846153846153,
+          "rerank_rank": 2,
+          "rerank_score": 0.8452414
+        },
+        {
+          "chunk_id": "ccb667fd84652c47ea4fc37d",
+          "source_id": "cisa_phishing_guidance",
+          "page": 12,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 16,
+          "rrf_rank": 31,
+          "rrf_score": 0.013157894736842105,
+          "rerank_rank": 3,
+          "rerank_score": 0.83290404
+        },
+        {
+          "chunk_id": "a59b100f96472d08613d96d8",
+          "source_id": "nist_sp800_61r3",
+          "page": 38,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 2,
+          "rrf_rank": 6,
+          "rrf_score": 0.016129032258064516,
+          "rerank_rank": 4,
+          "rerank_score": 0.8296166
+        },
+        {
+          "chunk_id": "62067dc7a4896a3683927594",
+          "source_id": "nist_sp800_61r3",
+          "page": 16,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 14,
+          "rrf_rank": 28,
+          "rrf_score": 0.013513513513513514,
+          "rerank_rank": 5,
+          "rerank_score": 0.82728493
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "question": "How should incident response activities be coordinated with cybersecurity risk management?",
+      "topic": "incident_response",
+      "gold_source_ids": [
+        "nist_sp800_61r3"
+      ],
+      "gold_chunk_ids": [
+        "afefd11c0fcc9a6e6a3c78f1"
+      ],
+      "fused_candidate_count": 32,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "0874114eb4acca73450b16f4",
+        "77e917d71af9fec51d1a87d5",
+        "24301f230352eaeaffb188bf",
+        "2e68c9413d9374e35f5d0e98",
+        "a59b100f96472d08613d96d8"
+      ],
+      "matched_gold_chunk_ids": [],
+      "hit": false,
+      "final_evidence": [
+        {
+          "chunk_id": "0874114eb4acca73450b16f4",
+          "source_id": "nist_sp800_61r3",
+          "page": 9,
+          "section_id": "",
+          "vector_rank": 8,
+          "bm25_rank": null,
+          "rrf_rank": 15,
+          "rrf_score": 0.014705882352941176,
+          "rerank_rank": 1,
+          "rerank_score": 0.90593183
+        },
+        {
+          "chunk_id": "77e917d71af9fec51d1a87d5",
+          "source_id": "nist_sp800_61r3",
+          "page": 12,
+          "section_id": "",
+          "vector_rank": 7,
+          "bm25_rank": 6,
+          "rrf_rank": 3,
+          "rrf_score": 0.03007688828584351,
+          "rerank_rank": 2,
+          "rerank_score": 0.9014448
+        },
+        {
+          "chunk_id": "24301f230352eaeaffb188bf",
+          "source_id": "nist_sp800_61r3",
+          "page": 16,
+          "section_id": "",
+          "vector_rank": 9,
+          "bm25_rank": 1,
+          "rrf_rank": 1,
+          "rrf_score": 0.030886196246139225,
+          "rerank_rank": 3,
+          "rerank_score": 0.8997663
+        },
+        {
+          "chunk_id": "2e68c9413d9374e35f5d0e98",
+          "source_id": "nist_sp800_61r3",
+          "page": 14,
+          "section_id": "",
+          "vector_rank": 3,
+          "bm25_rank": 19,
+          "rrf_rank": 6,
+          "rrf_score": 0.028531243721117136,
+          "rerank_rank": 4,
+          "rerank_score": 0.8827621
+        },
+        {
+          "chunk_id": "a59b100f96472d08613d96d8",
+          "source_id": "nist_sp800_61r3",
+          "page": 38,
+          "section_id": "",
+          "vector_rank": 5,
+          "bm25_rank": 5,
+          "rrf_rank": 2,
+          "rrf_score": 0.03076923076923077,
+          "rerank_rank": 5,
+          "rerank_score": 0.87807417
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "question": "What immediate containment actions can organizations take after detecting ransomware to limit its spread and impact?",
+      "topic": "ransomware_response",
+      "gold_source_ids": [
+        "cisa_stopransomware"
+      ],
+      "gold_chunk_ids": [
+        "117a56bc925f10a06a5882f8"
+      ],
+      "fused_candidate_count": 31,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "c5fd8d35219c0e75b69eb9d2",
+        "d922a8e274033058d583adb0",
+        "d4b2c6bf1cdf588a2f2bf8fe",
+        "195cb6fbbccc8d991495d76f",
+        "9f3111f8aad6f75690c611cf"
+      ],
+      "matched_gold_chunk_ids": [],
+      "hit": false,
+      "final_evidence": [
+        {
+          "chunk_id": "c5fd8d35219c0e75b69eb9d2",
+          "source_id": "nist_sp1800_26",
+          "page": 35,
+          "section_id": "",
+          "vector_rank": 5,
+          "bm25_rank": 8,
+          "rrf_rank": 3,
+          "rrf_score": 0.030090497737556562,
+          "rerank_rank": 1,
+          "rerank_score": 0.6747586
+        },
+        {
+          "chunk_id": "d922a8e274033058d583adb0",
+          "source_id": "cisa_stopransomware",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 19,
+          "bm25_rank": null,
+          "rrf_rank": 29,
+          "rrf_score": 0.012658227848101266,
+          "rerank_rank": 2,
+          "rerank_score": 0.6369636
+        },
+        {
+          "chunk_id": "d4b2c6bf1cdf588a2f2bf8fe",
+          "source_id": "nist_ir8374r1",
+          "page": 8,
+          "section_id": "",
+          "vector_rank": 16,
+          "bm25_rank": 10,
+          "rrf_rank": 9,
+          "rrf_score": 0.027443609022556388,
+          "rerank_rank": 3,
+          "rerank_score": 0.63615024
+        },
+        {
+          "chunk_id": "195cb6fbbccc8d991495d76f",
+          "source_id": "nist_ir8374r1",
+          "page": 20,
+          "section_id": "",
+          "vector_rank": 15,
+          "bm25_rank": 4,
+          "rrf_rank": 6,
+          "rrf_score": 0.028958333333333336,
+          "rerank_rank": 4,
+          "rerank_score": 0.6139086
+        },
+        {
+          "chunk_id": "9f3111f8aad6f75690c611cf",
+          "source_id": "cisa_ir_playbook",
+          "page": 14,
+          "section_id": "",
+          "vector_rank": 18,
+          "bm25_rank": 6,
+          "rrf_rank": 7,
+          "rrf_score": 0.027972027972027972,
+          "rerank_rank": 5,
+          "rerank_score": 0.57293844
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "question": "What measures can organizations use to protect important assets from ransomware and destructive events?",
+      "topic": "ransomware_protection",
+      "gold_source_ids": [
+        "nist_sp1800_25"
+      ],
+      "gold_chunk_ids": [
+        "747bba6062b5e56f3f85bd22"
+      ],
+      "fused_candidate_count": 37,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "0c1cfbdce15b0e986860be2f",
+        "e8c8eb516d41ee0e85994220",
+        "56b65f720cc60a6b55785317",
+        "365a1b3cb49d9b73169aa5a6",
+        "f560c9ccdbb40c66a95e4b53"
+      ],
+      "matched_gold_chunk_ids": [],
+      "hit": false,
+      "final_evidence": [
+        {
+          "chunk_id": "0c1cfbdce15b0e986860be2f",
+          "source_id": "nist_ir8374r1",
+          "page": 22,
+          "section_id": "",
+          "vector_rank": 20,
+          "bm25_rank": 3,
+          "rrf_rank": 3,
+          "rrf_score": 0.028373015873015873,
+          "rerank_rank": 1,
+          "rerank_score": 0.8351749
+        },
+        {
+          "chunk_id": "e8c8eb516d41ee0e85994220",
+          "source_id": "nist_sp1800_25",
+          "page": 17,
+          "section_id": "",
+          "vector_rank": 9,
+          "bm25_rank": 2,
+          "rrf_rank": 1,
+          "rrf_score": 0.030621785881252923,
+          "rerank_rank": 2,
+          "rerank_score": 0.8335554
+        },
+        {
+          "chunk_id": "56b65f720cc60a6b55785317",
+          "source_id": "nist_ir8374r1",
+          "page": 9,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 1,
+          "rrf_rank": 4,
+          "rrf_score": 0.01639344262295082,
+          "rerank_rank": 3,
+          "rerank_score": 0.8296166
+        },
+        {
+          "chunk_id": "365a1b3cb49d9b73169aa5a6",
+          "source_id": "nist_sp1800_25",
+          "page": 59,
+          "section_id": "",
+          "vector_rank": 11,
+          "bm25_rank": null,
+          "rrf_rank": 19,
+          "rrf_score": 0.014084507042253521,
+          "rerank_rank": 4,
+          "rerank_score": 0.8116913
+        },
+        {
+          "chunk_id": "f560c9ccdbb40c66a95e4b53",
+          "source_id": "nist_sp1800_25",
+          "page": 18,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 5,
+          "rrf_rank": 10,
+          "rrf_score": 0.015384615384615385,
+          "rerank_rank": 5,
+          "rerank_score": 0.8095324
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "question": "What should organizations consider when validating and prioritizing the recovery of data and systems after a ransomware or destructive event?",
+      "topic": "ransomware_recovery",
+      "gold_source_ids": [
+        "nist_sp1800_11",
+        "nist_sp800_184"
+      ],
+      "gold_chunk_ids": [
+        "c4c42d566678013a0903cf53",
+        "fe2f2d1c83c35c36002827a3"
+      ],
+      "fused_candidate_count": 38,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "0a59af91f8f5f107a133b19d",
+        "17c02063cf4b26292932b12a",
+        "fe2f2d1c83c35c36002827a3",
+        "117a56bc925f10a06a5882f8",
+        "36e376c4e4f046c7cab5e498"
+      ],
+      "matched_gold_chunk_ids": [
+        "fe2f2d1c83c35c36002827a3"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "0a59af91f8f5f107a133b19d",
+          "source_id": "nist_ir8374r1",
+          "page": 10,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 8,
+          "rrf_rank": 14,
+          "rrf_score": 0.014705882352941176,
+          "rerank_rank": 1,
+          "rerank_score": 0.85421735
+        },
+        {
+          "chunk_id": "17c02063cf4b26292932b12a",
+          "source_id": "cisa_stopransomware",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 1,
+          "bm25_rank": null,
+          "rrf_rank": 3,
+          "rrf_score": 0.01639344262295082,
+          "rerank_rank": 2,
+          "rerank_score": 0.8512743
+        },
+        {
+          "chunk_id": "fe2f2d1c83c35c36002827a3",
+          "source_id": "nist_sp800_184",
+          "page": 13,
+          "section_id": "",
+          "vector_rank": 6,
+          "bm25_rank": 1,
+          "rrf_rank": 1,
+          "rrf_score": 0.031544957774465976,
+          "rerank_rank": 3,
+          "rerank_score": 0.83932644
+        },
+        {
+          "chunk_id": "117a56bc925f10a06a5882f8",
+          "source_id": "cisa_stopransomware",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 7,
+          "bm25_rank": null,
+          "rrf_rank": 12,
+          "rrf_score": 0.014925373134328358,
+          "rerank_rank": 4,
+          "rerank_score": 0.81595254
+        },
+        {
+          "chunk_id": "36e376c4e4f046c7cab5e498",
+          "source_id": "nist_sp800_184",
+          "page": 38,
+          "section_id": "",
+          "vector_rank": 9,
+          "bm25_rank": null,
+          "rrf_rank": 17,
+          "rrf_score": 0.014492753623188406,
+          "rerank_rank": 5,
+          "rerank_score": 0.7944651
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "question": "How can organizations use the Cybersecurity Framework to assess readiness and prioritize ransomware risk reduction?",
+      "topic": "ransomware_risk",
+      "gold_source_ids": [
+        "nist_ir8374r1"
+      ],
+      "gold_chunk_ids": [
+        "6d4ca857480ded8951a4084c"
+      ],
+      "fused_candidate_count": 37,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "6d4ca857480ded8951a4084c",
+        "5a139bddaa5e0dcb517ca26c",
+        "77243ddd352a0766ebc71d54",
+        "27169ebd692578e2c2dad404",
+        "c7a450c7d618f746507aa0fc"
+      ],
+      "matched_gold_chunk_ids": [
+        "6d4ca857480ded8951a4084c"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "6d4ca857480ded8951a4084c",
+          "source_id": "nist_ir8374r1",
+          "page": 11,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 2,
+          "rrf_rank": 6,
+          "rrf_score": 0.016129032258064516,
+          "rerank_rank": 1,
+          "rerank_score": 0.914176
+        },
+        {
+          "chunk_id": "5a139bddaa5e0dcb517ca26c",
+          "source_id": "nist_ir8374r1",
+          "page": 8,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 9,
+          "rrf_rank": 18,
+          "rrf_score": 0.014492753623188406,
+          "rerank_rank": 2,
+          "rerank_score": 0.8812988
+        },
+        {
+          "chunk_id": "77243ddd352a0766ebc71d54",
+          "source_id": "nist_csf2",
+          "page": 15,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 3,
+          "rrf_rank": 9,
+          "rrf_score": 0.015873015873015872,
+          "rerank_rank": 3,
+          "rerank_score": 0.8325776
+        },
+        {
+          "chunk_id": "27169ebd692578e2c2dad404",
+          "source_id": "nist_ir8374r1",
+          "page": 4,
+          "section_id": "",
+          "vector_rank": 18,
+          "bm25_rank": 11,
+          "rrf_rank": 3,
+          "rrf_score": 0.02690501986276634,
+          "rerank_rank": 4,
+          "rerank_score": 0.8315952
+        },
+        {
+          "chunk_id": "c7a450c7d618f746507aa0fc",
+          "source_id": "nist_csf2",
+          "page": 6,
+          "section_id": "",
+          "vector_rank": 12,
+          "bm25_rank": 7,
+          "rrf_rank": 2,
+          "rrf_score": 0.028814262023217248,
+          "rerank_rank": 5,
+          "rerank_score": 0.82560414
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "question": "What measures can organizations implement to reduce successful credential-phishing attacks?",
+      "topic": "phishing",
+      "gold_source_ids": [
+        "cisa_phishing_guidance"
+      ],
+      "gold_chunk_ids": [
+        "c2eaebdf1c6dd4ac765a5ca5",
+        "385f704d993f11f0fd179c47",
+        "9ce53e41fbbf784648dae5e5"
+      ],
+      "fused_candidate_count": 40,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "626ab88e8679dfc15b888417",
+        "c95b721bf2dced1fa52dc7a8",
+        "c1f7eec816fe8efedf0fca83",
+        "e678f8653c81a0606b96b7b6",
+        "385f704d993f11f0fd179c47"
+      ],
+      "matched_gold_chunk_ids": [
+        "385f704d993f11f0fd179c47"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "626ab88e8679dfc15b888417",
+          "source_id": "cisa_phishing_guidance",
+          "page": 5,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 6,
+          "rrf_rank": 12,
+          "rrf_score": 0.015151515151515152,
+          "rerank_rank": 1,
+          "rerank_score": 0.86303437
+        },
+        {
+          "chunk_id": "c95b721bf2dced1fa52dc7a8",
+          "source_id": "cisa_phishing_guidance",
+          "page": 7,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 2,
+          "rrf_rank": 3,
+          "rrf_score": 0.016129032258064516,
+          "rerank_rank": 2,
+          "rerank_score": 0.7756902
+        },
+        {
+          "chunk_id": "c1f7eec816fe8efedf0fca83",
+          "source_id": "cisa_phishing_guidance",
+          "page": 11,
+          "section_id": "",
+          "vector_rank": 16,
+          "bm25_rank": null,
+          "rrf_rank": 31,
+          "rrf_score": 0.013157894736842105,
+          "rerank_rank": 3,
+          "rerank_score": 0.7493996
+        },
+        {
+          "chunk_id": "e678f8653c81a0606b96b7b6",
+          "source_id": "cisa_phishing_guidance",
+          "page": 11,
+          "section_id": "",
+          "vector_rank": 2,
+          "bm25_rank": null,
+          "rrf_rank": 4,
+          "rrf_score": 0.016129032258064516,
+          "rerank_rank": 4,
+          "rerank_score": 0.68571854
+        },
+        {
+          "chunk_id": "385f704d993f11f0fd179c47",
+          "source_id": "cisa_phishing_guidance",
+          "page": 6,
+          "section_id": "",
+          "vector_rank": 4,
+          "bm25_rank": null,
+          "rrf_rank": 8,
+          "rrf_score": 0.015625,
+          "rerank_rank": 5,
+          "rerank_score": 0.68420124
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "question": "What key response considerations should organizations address when identifying, analyzing, prioritizing, and containing malware incidents on desktops or laptops?",
+      "topic": "malware",
+      "gold_source_ids": [
+        "nist_sp800_83r1"
+      ],
+      "gold_chunk_ids": [
+        "5fefb684f2eeec739da2b4cd"
+      ],
+      "fused_candidate_count": 30,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "be473b5d2b9f1f70630d0fbf",
+        "34bc5cbd50d7ff014d1ebc12",
+        "f2bb397488aa542ea50b9504",
+        "4a9f0c32544a923647106f9e",
+        "5fefb684f2eeec739da2b4cd"
+      ],
+      "matched_gold_chunk_ids": [
+        "5fefb684f2eeec739da2b4cd"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "be473b5d2b9f1f70630d0fbf",
+          "source_id": "nist_sp800_83r1",
+          "page": 35,
+          "section_id": "",
+          "vector_rank": 4,
+          "bm25_rank": 1,
+          "rrf_rank": 1,
+          "rrf_score": 0.032018442622950824,
+          "rerank_rank": 1,
+          "rerank_score": 0.89567816
+        },
+        {
+          "chunk_id": "34bc5cbd50d7ff014d1ebc12",
+          "source_id": "nist_sp800_83r1",
+          "page": 10,
+          "section_id": "",
+          "vector_rank": 8,
+          "bm25_rank": 3,
+          "rrf_rank": 3,
+          "rrf_score": 0.03057889822595705,
+          "rerank_rank": 2,
+          "rerank_score": 0.8785752
+        },
+        {
+          "chunk_id": "f2bb397488aa542ea50b9504",
+          "source_id": "nist_sp800_83r1",
+          "page": 11,
+          "section_id": "",
+          "vector_rank": 7,
+          "bm25_rank": 6,
+          "rrf_rank": 4,
+          "rrf_score": 0.03007688828584351,
+          "rerank_rank": 3,
+          "rerank_score": 0.8740022
+        },
+        {
+          "chunk_id": "4a9f0c32544a923647106f9e",
+          "source_id": "nist_sp800_83r1",
+          "page": 30,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 2,
+          "rrf_rank": 12,
+          "rrf_score": 0.016129032258064516,
+          "rerank_rank": 4,
+          "rerank_score": 0.85157084
+        },
+        {
+          "chunk_id": "5fefb684f2eeec739da2b4cd",
+          "source_id": "nist_sp800_83r1",
+          "page": 10,
+          "section_id": "",
+          "vector_rank": 2,
+          "bm25_rank": 4,
+          "rrf_rank": 2,
+          "rrf_score": 0.031754032258064516,
+          "rerank_rank": 5,
+          "rerank_score": 0.8455478
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "question": "How can a forensic capability help organizations reconstruct cybersecurity incidents and support response decisions?",
+      "topic": "digital_forensics",
+      "gold_source_ids": [
+        "nist_sp800_86"
+      ],
+      "gold_chunk_ids": [
+        "7e3f77fb411066f6796183e7"
+      ],
+      "fused_candidate_count": 37,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "7e3f77fb411066f6796183e7",
+        "8269e70412e5820584dc0f63",
+        "69cf2dfcad4314e226e6082b",
+        "68e277f25c33af7ce848b692",
+        "a0fabb69d352d52a755a2d8d"
+      ],
+      "matched_gold_chunk_ids": [
+        "7e3f77fb411066f6796183e7"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "7e3f77fb411066f6796183e7",
+          "source_id": "nist_sp800_86",
+          "page": 97,
+          "section_id": "",
+          "vector_rank": 14,
+          "bm25_rank": 7,
+          "rrf_rank": 2,
+          "rrf_score": 0.028438886647841874,
+          "rerank_rank": 1,
+          "rerank_score": 0.86303437
+        },
+        {
+          "chunk_id": "8269e70412e5820584dc0f63",
+          "source_id": "nist_sp800_86",
+          "page": 22,
+          "section_id": "",
+          "vector_rank": 1,
+          "bm25_rank": 5,
+          "rrf_rank": 1,
+          "rrf_score": 0.03177805800756621,
+          "rerank_rank": 2,
+          "rerank_score": 0.8396422
+        },
+        {
+          "chunk_id": "69cf2dfcad4314e226e6082b",
+          "source_id": "nist_sp800_86",
+          "page": 15,
+          "section_id": "",
+          "vector_rank": 4,
+          "bm25_rank": null,
+          "rrf_rank": 9,
+          "rrf_score": 0.015625,
+          "rerank_rank": 3,
+          "rerank_score": 0.82288796
+        },
+        {
+          "chunk_id": "68e277f25c33af7ce848b692",
+          "source_id": "nist_sp800_86",
+          "page": 9,
+          "section_id": "",
+          "vector_rank": 15,
+          "bm25_rank": null,
+          "rrf_rank": 28,
+          "rrf_score": 0.013333333333333334,
+          "rerank_rank": 4,
+          "rerank_score": 0.81347597
+        },
+        {
+          "chunk_id": "a0fabb69d352d52a755a2d8d",
+          "source_id": "nist_sp800_86",
+          "page": 15,
+          "section_id": "",
+          "vector_rank": 2,
+          "bm25_rank": null,
+          "rrf_rank": 5,
+          "rrf_score": 0.016129032258064516,
+          "rerank_rank": 5,
+          "rerank_score": 0.7621591
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "question": "Why is preserving evidence important during incident response and forensic analysis?",
+      "topic": "digital_forensics",
+      "gold_source_ids": [
+        "nist_sp800_86"
+      ],
+      "gold_chunk_ids": [
+        "31a086ff61e582bb972812cd"
+      ],
+      "fused_candidate_count": 33,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "6472ba9ffd571c20b2a6a0e2",
+        "31a086ff61e582bb972812cd",
+        "2f3f0056edd0de92ffbb218b",
+        "a4c33036300ca12dbd158f7b",
+        "77c2fef74b4d5c463f4b8df9"
+      ],
+      "matched_gold_chunk_ids": [
+        "31a086ff61e582bb972812cd"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "6472ba9ffd571c20b2a6a0e2",
+          "source_id": "nist_sp800_86",
+          "page": 29,
+          "section_id": "",
+          "vector_rank": 14,
+          "bm25_rank": 16,
+          "rrf_rank": 7,
+          "rrf_score": 0.02667140825035562,
+          "rerank_rank": 1,
+          "rerank_score": 0.87348515
+        },
+        {
+          "chunk_id": "31a086ff61e582bb972812cd",
+          "source_id": "nist_sp800_86",
+          "page": 22,
+          "section_id": "",
+          "vector_rank": 6,
+          "bm25_rank": 2,
+          "rrf_rank": 1,
+          "rrf_score": 0.03128054740957967,
+          "rerank_rank": 2,
+          "rerank_score": 0.78334314
+        },
+        {
+          "chunk_id": "2f3f0056edd0de92ffbb218b",
+          "source_id": "nist_sp800_86",
+          "page": 32,
+          "section_id": "",
+          "vector_rank": 3,
+          "bm25_rank": null,
+          "rrf_rank": 10,
+          "rrf_score": 0.015873015873015872,
+          "rerank_rank": 3,
+          "rerank_score": 0.75442725
+        },
+        {
+          "chunk_id": "a4c33036300ca12dbd158f7b",
+          "source_id": "nist_sp800_86",
+          "page": 100,
+          "section_id": "",
+          "vector_rank": 20,
+          "bm25_rank": 8,
+          "rrf_rank": 6,
+          "rrf_score": 0.027205882352941177,
+          "rerank_rank": 4,
+          "rerank_score": 0.74229145
+        },
+        {
+          "chunk_id": "77c2fef74b4d5c463f4b8df9",
+          "source_id": "nist_sp800_86",
+          "page": 32,
+          "section_id": "",
+          "vector_rank": 1,
+          "bm25_rank": null,
+          "rrf_rank": 9,
+          "rrf_score": 0.01639344262295082,
+          "rerank_rank": 5,
+          "rerank_score": 0.7060491
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "question": "What should investigators consider when preserving, handling, and extracting evidence from mobile devices?",
+      "topic": "mobile_forensics",
+      "gold_source_ids": [
+        "nist_sp800_101r1"
+      ],
+      "gold_chunk_ids": [
+        "818034b957caaa583b3446d0"
+      ],
+      "fused_candidate_count": 35,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "818034b957caaa583b3446d0",
+        "5aeeffdc6ce9e5c0ed627dbf",
+        "70c25865c1c49f1e29090906",
+        "10142b86b9b03b94c056d68f",
+        "c9cb74fa2af22f13052fe3b2"
+      ],
+      "matched_gold_chunk_ids": [
+        "818034b957caaa583b3446d0"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "818034b957caaa583b3446d0",
+          "source_id": "nist_sp800_101r1",
+          "page": 10,
+          "section_id": "",
+          "vector_rank": 3,
+          "bm25_rank": 2,
+          "rrf_rank": 1,
+          "rrf_score": 0.03200204813108039,
+          "rerank_rank": 1,
+          "rerank_score": 0.8624794
+        },
+        {
+          "chunk_id": "5aeeffdc6ce9e5c0ed627dbf",
+          "source_id": "nist_sp800_101r1",
+          "page": 37,
+          "section_id": "",
+          "vector_rank": 5,
+          "bm25_rank": 5,
+          "rrf_rank": 3,
+          "rrf_score": 0.03076923076923077,
+          "rerank_rank": 2,
+          "rerank_score": 0.8232293
+        },
+        {
+          "chunk_id": "70c25865c1c49f1e29090906",
+          "source_id": "nist_sp800_101r1",
+          "page": 11,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 6,
+          "rrf_rank": 11,
+          "rrf_score": 0.015151515151515152,
+          "rerank_rank": 3,
+          "rerank_score": 0.7982658
+        },
+        {
+          "chunk_id": "10142b86b9b03b94c056d68f",
+          "source_id": "nist_sp800_101r1",
+          "page": 37,
+          "section_id": "",
+          "vector_rank": 2,
+          "bm25_rank": 7,
+          "rrf_rank": 2,
+          "rrf_score": 0.031054405392392875,
+          "rerank_rank": 4,
+          "rerank_score": 0.7872945
+        },
+        {
+          "chunk_id": "c9cb74fa2af22f13052fe3b2",
+          "source_id": "nist_sp800_101r1",
+          "page": 12,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 1,
+          "rrf_rank": 7,
+          "rrf_score": 0.01639344262295082,
+          "rerank_rank": 5,
+          "rerank_score": 0.72698855
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "question": "What application security events should organizations consider logging for security monitoring and incident investigation?",
+      "topic": "logging",
+      "gold_source_ids": [
+        "owasp_logging"
+      ],
+      "gold_chunk_ids": [
+        "62a947c5ac1e3eb9b252bab1",
+        "b5a5d0e4c638067e91e8ede3"
+      ],
+      "fused_candidate_count": 34,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "d4a10b41e209824617468ac2",
+        "109a343834ac253635789d08",
+        "e6214dc3f4361496f90d1921",
+        "5079b2582ae70b563cb81165",
+        "5f3b24c11a41f59829168cce"
+      ],
+      "matched_gold_chunk_ids": [],
+      "hit": false,
+      "final_evidence": [
+        {
+          "chunk_id": "d4a10b41e209824617468ac2",
+          "source_id": "owasp_logging",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 4,
+          "bm25_rank": 3,
+          "rrf_rank": 1,
+          "rrf_score": 0.03149801587301587,
+          "rerank_rank": 1,
+          "rerank_score": 0.8747745
+        },
+        {
+          "chunk_id": "109a343834ac253635789d08",
+          "source_id": "nist_sp800_92",
+          "page": 19,
+          "section_id": "",
+          "vector_rank": 2,
+          "bm25_rank": null,
+          "rrf_rank": 9,
+          "rrf_score": 0.016129032258064516,
+          "rerank_rank": 2,
+          "rerank_score": 0.81133276
+        },
+        {
+          "chunk_id": "e6214dc3f4361496f90d1921",
+          "source_id": "owasp_logging",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 7,
+          "bm25_rank": 2,
+          "rrf_rank": 2,
+          "rrf_score": 0.031054405392392875,
+          "rerank_rank": 3,
+          "rerank_score": 0.8005209
+        },
+        {
+          "chunk_id": "5079b2582ae70b563cb81165",
+          "source_id": "owasp_logging",
+          "page": null,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 10,
+          "rrf_rank": 19,
+          "rrf_score": 0.014285714285714285,
+          "rerank_rank": 4,
+          "rerank_score": 0.776708
+        },
+        {
+          "chunk_id": "5f3b24c11a41f59829168cce",
+          "source_id": "owasp_logging",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 1,
+          "bm25_rank": null,
+          "rrf_rank": 8,
+          "rrf_score": 0.01639344262295082,
+          "rerank_rank": 5,
+          "rerank_score": 0.735737
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "question": "Why is application logging important for detecting and investigating security incidents?",
+      "topic": "application_logging",
+      "gold_source_ids": [
+        "owasp_logging"
+      ],
+      "gold_chunk_ids": [
+        "e6214dc3f4361496f90d1921",
+        "b51e97c9975945ab09d3c21d"
+      ],
+      "fused_candidate_count": 36,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "d4a10b41e209824617468ac2",
+        "109a343834ac253635789d08",
+        "e6214dc3f4361496f90d1921",
+        "5efa2d18f35fd331d2e63713",
+        "ea23f6a72ab7c9b0ce091b26"
+      ],
+      "matched_gold_chunk_ids": [
+        "e6214dc3f4361496f90d1921"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "d4a10b41e209824617468ac2",
+          "source_id": "owasp_logging",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 5,
+          "bm25_rank": 3,
+          "rrf_rank": 1,
+          "rrf_score": 0.03125763125763126,
+          "rerank_rank": 1,
+          "rerank_score": 0.88420963
+        },
+        {
+          "chunk_id": "109a343834ac253635789d08",
+          "source_id": "nist_sp800_92",
+          "page": 19,
+          "section_id": "",
+          "vector_rank": 1,
+          "bm25_rank": null,
+          "rrf_rank": 5,
+          "rrf_score": 0.01639344262295082,
+          "rerank_rank": 2,
+          "rerank_score": 0.8627572
+        },
+        {
+          "chunk_id": "e6214dc3f4361496f90d1921",
+          "source_id": "owasp_logging",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 9,
+          "bm25_rank": 1,
+          "rrf_rank": 2,
+          "rrf_score": 0.030886196246139225,
+          "rerank_rank": 3,
+          "rerank_score": 0.8405867
+        },
+        {
+          "chunk_id": "5efa2d18f35fd331d2e63713",
+          "source_id": "nist_sp800_92",
+          "page": 19,
+          "section_id": "",
+          "vector_rank": 2,
+          "bm25_rank": 20,
+          "rrf_rank": 3,
+          "rrf_score": 0.028629032258064516,
+          "rerank_rank": 4,
+          "rerank_score": 0.82117355
+        },
+        {
+          "chunk_id": "ea23f6a72ab7c9b0ce091b26",
+          "source_id": "nist_sp800_137",
+          "page": 67,
+          "section_id": "",
+          "vector_rank": 3,
+          "bm25_rank": null,
+          "rrf_rank": 7,
+          "rrf_score": 0.015873015873015872,
+          "rerank_rank": 5,
+          "rerank_score": 0.709684
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "question": "What is the purpose of information security continuous monitoring?",
+      "topic": "continuous_monitoring",
+      "gold_source_ids": [
+        "nist_sp800_137"
+      ],
+      "gold_chunk_ids": [
+        "4bbb208f2b60dd223a7463d1"
+      ],
+      "fused_candidate_count": 37,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "c4dd081151f8cf972fbaee45",
+        "0f2c859543514e080b630745",
+        "aafb2a3e3d2197f477d79dd0",
+        "9756686be93b34e8bb50812e",
+        "67b726395656dfb88b5befd8"
+      ],
+      "matched_gold_chunk_ids": [],
+      "hit": false,
+      "final_evidence": [
+        {
+          "chunk_id": "c4dd081151f8cf972fbaee45",
+          "source_id": "nist_sp800_137",
+          "page": 6,
+          "section_id": "",
+          "vector_rank": 2,
+          "bm25_rank": null,
+          "rrf_rank": 7,
+          "rrf_score": 0.016129032258064516,
+          "rerank_rank": 1,
+          "rerank_score": 0.9404462
+        },
+        {
+          "chunk_id": "0f2c859543514e080b630745",
+          "source_id": "nist_sp800_137",
+          "page": 6,
+          "section_id": "",
+          "vector_rank": 1,
+          "bm25_rank": null,
+          "rrf_rank": 4,
+          "rrf_score": 0.01639344262295082,
+          "rerank_rank": 2,
+          "rerank_score": 0.9158166
+        },
+        {
+          "chunk_id": "aafb2a3e3d2197f477d79dd0",
+          "source_id": "nist_sp800_137",
+          "page": 8,
+          "section_id": "",
+          "vector_rank": 6,
+          "bm25_rank": 8,
+          "rrf_rank": 1,
+          "rrf_score": 0.029857397504456328,
+          "rerank_rank": 3,
+          "rerank_score": 0.90289277
+        },
+        {
+          "chunk_id": "9756686be93b34e8bb50812e",
+          "source_id": "nist_sp800_137",
+          "page": 51,
+          "section_id": "",
+          "vector_rank": 3,
+          "bm25_rank": null,
+          "rrf_rank": 9,
+          "rrf_score": 0.015873015873015872,
+          "rerank_rank": 4,
+          "rerank_score": 0.87166095
+        },
+        {
+          "chunk_id": "67b726395656dfb88b5befd8",
+          "source_id": "nist_sp800_137",
+          "page": 7,
+          "section_id": "",
+          "vector_rank": 19,
+          "bm25_rank": null,
+          "rrf_rank": 36,
+          "rrf_score": 0.012658227848101266,
+          "rerank_rank": 5,
+          "rerank_score": 0.86052185
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "question": "What security controls can strengthen web application authentication against credential compromise and automated login attacks?",
+      "topic": "authentication",
+      "gold_source_ids": [
+        "owasp_authentication"
+      ],
+      "gold_chunk_ids": [
+        "243b19f895f7a8d5d6ffaef7",
+        "8c1e8f8acf8189e5a88a3aa1",
+        "98aff56942ef036b8ae8bc7e"
+      ],
+      "fused_candidate_count": 35,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "2bbce62afada2c22398c3411",
+        "8c1e8f8acf8189e5a88a3aa1",
+        "897b2653235fb904c997058f",
+        "144870b28ce42a0b22de05b2",
+        "005c509ec328fc9aab47bf0a"
+      ],
+      "matched_gold_chunk_ids": [
+        "8c1e8f8acf8189e5a88a3aa1"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "2bbce62afada2c22398c3411",
+          "source_id": "owasp_credential_stuffing",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 7,
+          "bm25_rank": 4,
+          "rrf_rank": 4,
+          "rrf_score": 0.03055037313432836,
+          "rerank_rank": 1,
+          "rerank_score": 0.666736
+        },
+        {
+          "chunk_id": "8c1e8f8acf8189e5a88a3aa1",
+          "source_id": "owasp_authentication",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 4,
+          "bm25_rank": 2,
+          "rrf_rank": 2,
+          "rrf_score": 0.031754032258064516,
+          "rerank_rank": 2,
+          "rerank_score": 0.6279746
+        },
+        {
+          "chunk_id": "897b2653235fb904c997058f",
+          "source_id": "owasp_authentication",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 6,
+          "bm25_rank": 1,
+          "rrf_rank": 3,
+          "rrf_score": 0.031544957774465976,
+          "rerank_rank": 3,
+          "rerank_score": 0.56661874
+        },
+        {
+          "chunk_id": "144870b28ce42a0b22de05b2",
+          "source_id": "owasp_authentication",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 9,
+          "bm25_rank": 6,
+          "rrf_rank": 5,
+          "rrf_score": 0.02964426877470356,
+          "rerank_rank": 4,
+          "rerank_score": 0.45333505
+        },
+        {
+          "chunk_id": "005c509ec328fc9aab47bf0a",
+          "source_id": "owasp_authentication",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 14,
+          "bm25_rank": null,
+          "rrf_rank": 22,
+          "rrf_score": 0.013513513513513514,
+          "rerank_rank": 5,
+          "rerank_score": 0.43885794
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "question": "Why does multifactor authentication significantly reduce the risk of password-related account compromise?",
+      "topic": "mfa",
+      "gold_source_ids": [
+        "owasp_mfa"
+      ],
+      "gold_chunk_ids": [
+        "65f4c7744752090789cdf314",
+        "0b3c1dcb836ee5636de046d1"
+      ],
+      "fused_candidate_count": 36,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "8c1e8f8acf8189e5a88a3aa1",
+        "5bc8945cc41a84312c34c359",
+        "82b2e7eaff2d7695ce156585",
+        "0b3c1dcb836ee5636de046d1",
+        "65f4c7744752090789cdf314"
+      ],
+      "matched_gold_chunk_ids": [
+        "65f4c7744752090789cdf314",
+        "0b3c1dcb836ee5636de046d1"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "8c1e8f8acf8189e5a88a3aa1",
+          "source_id": "owasp_authentication",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 1,
+          "bm25_rank": 1,
+          "rrf_rank": 1,
+          "rrf_score": 0.03278688524590164,
+          "rerank_rank": 1,
+          "rerank_score": 0.8033131
+        },
+        {
+          "chunk_id": "5bc8945cc41a84312c34c359",
+          "source_id": "owasp_credential_stuffing",
+          "page": null,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 10,
+          "rrf_rank": 19,
+          "rrf_score": 0.014285714285714285,
+          "rerank_rank": 2,
+          "rerank_score": 0.7634314
+        },
+        {
+          "chunk_id": "82b2e7eaff2d7695ce156585",
+          "source_id": "owasp_mfa",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 7,
+          "bm25_rank": null,
+          "rrf_rank": 13,
+          "rrf_score": 0.014925373134328358,
+          "rerank_rank": 3,
+          "rerank_score": 0.75421005
+        },
+        {
+          "chunk_id": "0b3c1dcb836ee5636de046d1",
+          "source_id": "owasp_mfa",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 8,
+          "bm25_rank": null,
+          "rrf_rank": 14,
+          "rrf_score": 0.014705882352941176,
+          "rerank_rank": 4,
+          "rerank_score": 0.7447496
+        },
+        {
+          "chunk_id": "65f4c7744752090789cdf314",
+          "source_id": "owasp_mfa",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 13,
+          "bm25_rank": 4,
+          "rrf_rank": 2,
+          "rrf_score": 0.0293236301369863,
+          "rerank_rank": 5,
+          "rerank_score": 0.572078
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "question": "What defensive controls can help prevent credential stuffing attacks?",
+      "topic": "credential_stuffing",
+      "gold_source_ids": [
+        "owasp_credential_stuffing"
+      ],
+      "gold_chunk_ids": [
+        "5bc8945cc41a84312c34c359",
+        "2bbce62afada2c22398c3411",
+        "d0c5dfa059e06c6c580a5c6f"
+      ],
+      "fused_candidate_count": 32,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "8c1e8f8acf8189e5a88a3aa1",
+        "2bbce62afada2c22398c3411",
+        "5bc8945cc41a84312c34c359",
+        "9417980c744d8bed8ce60ca2",
+        "897b2653235fb904c997058f"
+      ],
+      "matched_gold_chunk_ids": [
+        "5bc8945cc41a84312c34c359",
+        "2bbce62afada2c22398c3411"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "8c1e8f8acf8189e5a88a3aa1",
+          "source_id": "owasp_authentication",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 4,
+          "bm25_rank": 3,
+          "rrf_rank": 3,
+          "rrf_score": 0.03149801587301587,
+          "rerank_rank": 1,
+          "rerank_score": 0.9049283
+        },
+        {
+          "chunk_id": "2bbce62afada2c22398c3411",
+          "source_id": "owasp_credential_stuffing",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 7,
+          "bm25_rank": 1,
+          "rrf_rank": 4,
+          "rrf_score": 0.03131881575727918,
+          "rerank_rank": 2,
+          "rerank_score": 0.86981434
+        },
+        {
+          "chunk_id": "5bc8945cc41a84312c34c359",
+          "source_id": "owasp_credential_stuffing",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 2,
+          "bm25_rank": 4,
+          "rrf_rank": 2,
+          "rrf_score": 0.031754032258064516,
+          "rerank_rank": 3,
+          "rerank_score": 0.83290404
+        },
+        {
+          "chunk_id": "9417980c744d8bed8ce60ca2",
+          "source_id": "owasp_credential_stuffing",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 5,
+          "bm25_rank": 7,
+          "rrf_rank": 5,
+          "rrf_score": 0.030309988518943745,
+          "rerank_rank": 4,
+          "rerank_score": 0.7923522
+        },
+        {
+          "chunk_id": "897b2653235fb904c997058f",
+          "source_id": "owasp_authentication",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 3,
+          "bm25_rank": 2,
+          "rrf_rank": 1,
+          "rrf_score": 0.03200204813108039,
+          "rerank_rank": 5,
+          "rerank_score": 0.78866494
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "question": "What controls should secure forgot-password requests and password-reset tokens?",
+      "topic": "account_recovery",
+      "gold_source_ids": [
+        "owasp_forgot_password"
+      ],
+      "gold_chunk_ids": [
+        "049b84641ef435be1bb185ce",
+        "9ac9156f3eec1dc42c503e50"
+      ],
+      "fused_candidate_count": 36,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "049b84641ef435be1bb185ce",
+        "26169b2b7a4e388c31f20369",
+        "44c24dc84a89bcab8efc612a",
+        "9ac9156f3eec1dc42c503e50",
+        "82db30c8f25d6bf3c5b0dc55"
+      ],
+      "matched_gold_chunk_ids": [
+        "049b84641ef435be1bb185ce",
+        "9ac9156f3eec1dc42c503e50"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "049b84641ef435be1bb185ce",
+          "source_id": "owasp_forgot_password",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 2,
+          "bm25_rank": 13,
+          "rrf_rank": 1,
+          "rrf_score": 0.029827662395050816,
+          "rerank_rank": 1,
+          "rerank_score": 0.72278196
+        },
+        {
+          "chunk_id": "26169b2b7a4e388c31f20369",
+          "source_id": "owasp_forgot_password",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 1,
+          "bm25_rank": null,
+          "rrf_rank": 5,
+          "rrf_score": 0.01639344262295082,
+          "rerank_rank": 2,
+          "rerank_score": 0.58237284
+        },
+        {
+          "chunk_id": "44c24dc84a89bcab8efc612a",
+          "source_id": "owasp_forgot_password",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 4,
+          "bm25_rank": 15,
+          "rrf_rank": 2,
+          "rrf_score": 0.028958333333333336,
+          "rerank_rank": 3,
+          "rerank_score": 0.5441965
+        },
+        {
+          "chunk_id": "9ac9156f3eec1dc42c503e50",
+          "source_id": "owasp_forgot_password",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 19,
+          "bm25_rank": 3,
+          "rrf_rank": 3,
+          "rrf_score": 0.028531243721117136,
+          "rerank_rank": 4,
+          "rerank_score": 0.52232456
+        },
+        {
+          "chunk_id": "82db30c8f25d6bf3c5b0dc55",
+          "source_id": "owasp_forgot_password",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 3,
+          "bm25_rank": null,
+          "rrf_rank": 8,
+          "rrf_score": 0.015873015873015872,
+          "rerank_rank": 5,
+          "rerank_score": 0.39424816
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "question": "What controls help protect web application session identifiers from interception, theft, and fixation?",
+      "topic": "session_security",
+      "gold_source_ids": [
+        "owasp_session_management"
+      ],
+      "gold_chunk_ids": [
+        "2530a275d5a5d8a46ed0bb60",
+        "340dad1eaa8b80ffb1908d26",
+        "7515d743656fe07bd020ab23"
+      ],
+      "fused_candidate_count": 27,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "c6036d911d305dc094769291",
+        "816420f9a563c652211e856f",
+        "2530a275d5a5d8a46ed0bb60",
+        "75d7d0b151e39ffe58f62098",
+        "c0fd00b076dfca9bd03bb8ee"
+      ],
+      "matched_gold_chunk_ids": [
+        "2530a275d5a5d8a46ed0bb60"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "c6036d911d305dc094769291",
+          "source_id": "owasp_session_management",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 14,
+          "bm25_rank": null,
+          "rrf_rank": 22,
+          "rrf_score": 0.013513513513513514,
+          "rerank_rank": 1,
+          "rerank_score": 0.685971
+        },
+        {
+          "chunk_id": "816420f9a563c652211e856f",
+          "source_id": "owasp_session_management",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 3,
+          "bm25_rank": 5,
+          "rrf_rank": 3,
+          "rrf_score": 0.03125763125763126,
+          "rerank_rank": 2,
+          "rerank_score": 0.6353361
+        },
+        {
+          "chunk_id": "2530a275d5a5d8a46ed0bb60",
+          "source_id": "owasp_session_management",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 4,
+          "bm25_rank": 12,
+          "rrf_rank": 6,
+          "rrf_score": 0.029513888888888888,
+          "rerank_rank": 3,
+          "rerank_score": 0.6296157
+        },
+        {
+          "chunk_id": "75d7d0b151e39ffe58f62098",
+          "source_id": "owasp_session_management",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 1,
+          "bm25_rank": 1,
+          "rrf_rank": 1,
+          "rrf_score": 0.03278688524590164,
+          "rerank_rank": 4,
+          "rerank_score": 0.6257817
+        },
+        {
+          "chunk_id": "c0fd00b076dfca9bd03bb8ee",
+          "source_id": "owasp_session_management",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 11,
+          "bm25_rank": 3,
+          "rrf_rank": 4,
+          "rrf_score": 0.029957522915269395,
+          "rerank_rank": 5,
+          "rerank_score": 0.5900477
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "question": "What core security controls should REST APIs implement for transport security, access control, input validation, and abuse prevention?",
+      "topic": "api_security",
+      "gold_source_ids": [
+        "owasp_rest_security"
+      ],
+      "gold_chunk_ids": [
+        "16d6ce82655e8e86ed8ef66d",
+        "7c3820e813dca29a8f71b07c",
+        "d79ce7a5fd79326897d3c448"
+      ],
+      "fused_candidate_count": 38,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "16d6ce82655e8e86ed8ef66d",
+        "7c3820e813dca29a8f71b07c",
+        "866b4a5711d4b3883b034746",
+        "4c2db061eaf1c769f54b047e",
+        "f3cd4ea48e7c2ac6035576ec"
+      ],
+      "matched_gold_chunk_ids": [
+        "16d6ce82655e8e86ed8ef66d",
+        "7c3820e813dca29a8f71b07c"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "16d6ce82655e8e86ed8ef66d",
+          "source_id": "owasp_rest_security",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 1,
+          "bm25_rank": 1,
+          "rrf_rank": 1,
+          "rrf_score": 0.03278688524590164,
+          "rerank_rank": 1,
+          "rerank_score": 0.5437604
+        },
+        {
+          "chunk_id": "7c3820e813dca29a8f71b07c",
+          "source_id": "owasp_rest_security",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 4,
+          "bm25_rank": 8,
+          "rrf_rank": 2,
+          "rrf_score": 0.030330882352941176,
+          "rerank_rank": 2,
+          "rerank_score": 0.44536126
+        },
+        {
+          "chunk_id": "866b4a5711d4b3883b034746",
+          "source_id": "owasp_rest_security",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 3,
+          "bm25_rank": null,
+          "rrf_rank": 6,
+          "rrf_score": 0.015873015873015872,
+          "rerank_rank": 3,
+          "rerank_score": 0.43539792
+        },
+        {
+          "chunk_id": "4c2db061eaf1c769f54b047e",
+          "source_id": "owasp_rest_security",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 6,
+          "bm25_rank": null,
+          "rrf_rank": 10,
+          "rrf_score": 0.015151515151515152,
+          "rerank_rank": 4,
+          "rerank_score": 0.42119524
+        },
+        {
+          "chunk_id": "f3cd4ea48e7c2ac6035576ec",
+          "source_id": "owasp_rest_security",
+          "page": null,
+          "section_id": "",
+          "vector_rank": 2,
+          "bm25_rank": null,
+          "rrf_rank": 4,
+          "rrf_score": 0.016129032258064516,
+          "rerank_rank": 5,
+          "rerank_score": 0.3797929
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "question": "What are the main principles of a Zero Trust Architecture?",
+      "topic": "zero_trust",
+      "gold_source_ids": [
+        "nist_sp800_207"
+      ],
+      "gold_chunk_ids": [
+        "7aadb67ab49229ea7e62d9ac",
+        "3e070ebdc5470e95362ef937"
+      ],
+      "fused_candidate_count": 28,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "e89645962ba09cabbb8465ad",
+        "05d778f5423b40f69a21940b",
+        "7aadb67ab49229ea7e62d9ac",
+        "3e070ebdc5470e95362ef937",
+        "9bd9f35f3566deffdbc49a16"
+      ],
+      "matched_gold_chunk_ids": [
+        "7aadb67ab49229ea7e62d9ac",
+        "3e070ebdc5470e95362ef937"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "e89645962ba09cabbb8465ad",
+          "source_id": "nist_sp800_207",
+          "page": 10,
+          "section_id": "",
+          "vector_rank": 4,
+          "bm25_rank": 5,
+          "rrf_rank": 4,
+          "rrf_score": 0.031009615384615385,
+          "rerank_rank": 1,
+          "rerank_score": 0.9165366
+        },
+        {
+          "chunk_id": "05d778f5423b40f69a21940b",
+          "source_id": "nist_sp800_207",
+          "page": 4,
+          "section_id": "",
+          "vector_rank": 6,
+          "bm25_rank": 8,
+          "rrf_rank": 6,
+          "rrf_score": 0.029857397504456328,
+          "rerank_rank": 2,
+          "rerank_score": 0.8687491
+        },
+        {
+          "chunk_id": "7aadb67ab49229ea7e62d9ac",
+          "source_id": "nist_sp800_207",
+          "page": 13,
+          "section_id": "",
+          "vector_rank": 2,
+          "bm25_rank": 1,
+          "rrf_rank": 1,
+          "rrf_score": 0.03252247488101534,
+          "rerank_rank": 3,
+          "rerank_score": 0.8619225
+        },
+        {
+          "chunk_id": "3e070ebdc5470e95362ef937",
+          "source_id": "nist_sp800_207",
+          "page": 4,
+          "section_id": "",
+          "vector_rank": 1,
+          "bm25_rank": 4,
+          "rrf_rank": 2,
+          "rrf_score": 0.032018442622950824,
+          "rerank_rank": 4,
+          "rerank_score": 0.86024034
+        },
+        {
+          "chunk_id": "9bd9f35f3566deffdbc49a16",
+          "source_id": "nist_sp800_207",
+          "page": 15,
+          "section_id": "",
+          "vector_rank": 9,
+          "bm25_rank": 9,
+          "rrf_rank": 10,
+          "rrf_score": 0.028985507246376812,
+          "rerank_rank": 5,
+          "rerank_score": 0.8591094
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "question": "What factors and rules should organizations consider before sharing cyber threat information with other parties?",
+      "topic": "threat_intelligence",
+      "gold_source_ids": [
+        "nist_sp800_150"
+      ],
+      "gold_chunk_ids": [
+        "3bbfde84a81f5b10bc44b3b8",
+        "cd06a38f76cc48a92f18478c",
+        "b7ccfef05988bb96bffe4d93"
+      ],
+      "fused_candidate_count": 32,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "f34c32e3bde6e634e2716951",
+        "34bd51245f8935171345d465",
+        "cd06a38f76cc48a92f18478c",
+        "8b1b1cc715b73befebf961d0",
+        "2cf1318e81cb0e606cf7aeb3"
+      ],
+      "matched_gold_chunk_ids": [
+        "cd06a38f76cc48a92f18478c"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "f34c32e3bde6e634e2716951",
+          "source_id": "nist_sp800_150",
+          "page": 6,
+          "section_id": "",
+          "vector_rank": 8,
+          "bm25_rank": 1,
+          "rrf_rank": 3,
+          "rrf_score": 0.031099324975891997,
+          "rerank_rank": 1,
+          "rerank_score": 0.92507464
+        },
+        {
+          "chunk_id": "34bd51245f8935171345d465",
+          "source_id": "nist_sp800_150",
+          "page": 6,
+          "section_id": "",
+          "vector_rank": 1,
+          "bm25_rank": 3,
+          "rrf_rank": 1,
+          "rrf_score": 0.032266458495966696,
+          "rerank_rank": 2,
+          "rerank_score": 0.9039154
+        },
+        {
+          "chunk_id": "cd06a38f76cc48a92f18478c",
+          "source_id": "nist_sp800_150",
+          "page": 18,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 17,
+          "rrf_rank": 28,
+          "rrf_score": 0.012987012987012988,
+          "rerank_rank": 3,
+          "rerank_score": 0.8943568
+        },
+        {
+          "chunk_id": "8b1b1cc715b73befebf961d0",
+          "source_id": "nist_sp800_150",
+          "page": 14,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 12,
+          "rrf_rank": 20,
+          "rrf_score": 0.013888888888888888,
+          "rerank_rank": 4,
+          "rerank_score": 0.8700796
+        },
+        {
+          "chunk_id": "2cf1318e81cb0e606cf7aeb3",
+          "source_id": "nist_sp800_150",
+          "page": 17,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 4,
+          "rrf_rank": 9,
+          "rrf_score": 0.015625,
+          "rerank_rank": 5,
+          "rerank_score": 0.86108357
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "question": "What guidance does NIST provide for planning, executing, and following up on information security assessments?",
+      "topic": "security_testing",
+      "gold_source_ids": [
+        "nist_sp800_115"
+      ],
+      "gold_chunk_ids": [
+        "ce33b6ff2a48d60facaa91c0",
+        "ee43c27927da4c48d47d1b41",
+        "e53f51d78867902fa4d95eb6"
+      ],
+      "fused_candidate_count": 30,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "8bfae22b4a92a279cc79993f",
+        "854f3a4a264b9a7e92fda981",
+        "ce33b6ff2a48d60facaa91c0",
+        "3b26cc7a46ba925e239416cf",
+        "aeffa36ad5ca46470817bb0f"
+      ],
+      "matched_gold_chunk_ids": [
+        "ce33b6ff2a48d60facaa91c0"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "8bfae22b4a92a279cc79993f",
+          "source_id": "nist_sp800_115",
+          "page": 13,
+          "section_id": "",
+          "vector_rank": 1,
+          "bm25_rank": 19,
+          "rrf_rank": 6,
+          "rrf_score": 0.029051670471052088,
+          "rerank_rank": 1,
+          "rerank_score": 0.91988057
+        },
+        {
+          "chunk_id": "854f3a4a264b9a7e92fda981",
+          "source_id": "nist_sp800_115",
+          "page": 10,
+          "section_id": "",
+          "vector_rank": 4,
+          "bm25_rank": 18,
+          "rrf_rank": 8,
+          "rrf_score": 0.02844551282051282,
+          "rerank_rank": 2,
+          "rerank_score": 0.8539252
+        },
+        {
+          "chunk_id": "ce33b6ff2a48d60facaa91c0",
+          "source_id": "nist_sp800_115",
+          "page": 42,
+          "section_id": "",
+          "vector_rank": 8,
+          "bm25_rank": 1,
+          "rrf_rank": 2,
+          "rrf_score": 0.031099324975891997,
+          "rerank_rank": 3,
+          "rerank_score": 0.8252664
+        },
+        {
+          "chunk_id": "3b26cc7a46ba925e239416cf",
+          "source_id": "nist_sp800_115",
+          "page": 51,
+          "section_id": "",
+          "vector_rank": 3,
+          "bm25_rank": null,
+          "rrf_rank": 11,
+          "rrf_score": 0.015873015873015872,
+          "rerank_rank": 4,
+          "rerank_score": 0.79637206
+        },
+        {
+          "chunk_id": "aeffa36ad5ca46470817bb0f",
+          "source_id": "nist_sp800_115",
+          "page": 8,
+          "section_id": "",
+          "vector_rank": 2,
+          "bm25_rank": 2,
+          "rrf_rank": 1,
+          "rrf_score": 0.03225806451612903,
+          "rerank_rank": 5,
+          "rerank_score": 0.79522943
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "question": "How does the NIST Cybersecurity Framework help organizations manage cybersecurity risk?",
+      "topic": "risk_management",
+      "gold_source_ids": [
+        "nist_csf2"
+      ],
+      "gold_chunk_ids": [
+        "9d2ab5cf64ae88eca613b486",
+        "aa2208bf1a78ddd9c4ee7ced"
+      ],
+      "fused_candidate_count": 31,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "48e596ae63e366c320c24453",
+        "9d2ab5cf64ae88eca613b486",
+        "b4182fd9ef1a64ef66d2fe83",
+        "bb47bf807143a52036846456",
+        "d871bbd7f4a7e5cc55ff2d9d"
+      ],
+      "matched_gold_chunk_ids": [
+        "9d2ab5cf64ae88eca613b486"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "48e596ae63e366c320c24453",
+          "source_id": "nist_csf2",
+          "page": 5,
+          "section_id": "",
+          "vector_rank": 7,
+          "bm25_rank": 6,
+          "rrf_rank": 3,
+          "rrf_score": 0.03007688828584351,
+          "rerank_rank": 1,
+          "rerank_score": 0.9625643
+        },
+        {
+          "chunk_id": "9d2ab5cf64ae88eca613b486",
+          "source_id": "nist_csf2",
+          "page": 2,
+          "section_id": "",
+          "vector_rank": 5,
+          "bm25_rank": 3,
+          "rrf_rank": 1,
+          "rrf_score": 0.03125763125763126,
+          "rerank_rank": 2,
+          "rerank_score": 0.9556888
+        },
+        {
+          "chunk_id": "b4182fd9ef1a64ef66d2fe83",
+          "source_id": "nist_csf2",
+          "page": 6,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 1,
+          "rrf_rank": 11,
+          "rrf_score": 0.01639344262295082,
+          "rerank_rank": 3,
+          "rerank_score": 0.953557
+        },
+        {
+          "chunk_id": "bb47bf807143a52036846456",
+          "source_id": "nist_csf2",
+          "page": 7,
+          "section_id": "",
+          "vector_rank": 12,
+          "bm25_rank": 15,
+          "rrf_rank": 8,
+          "rrf_score": 0.027222222222222224,
+          "rerank_rank": 4,
+          "rerank_score": 0.9484276
+        },
+        {
+          "chunk_id": "d871bbd7f4a7e5cc55ff2d9d",
+          "source_id": "nist_sp1800_26",
+          "page": 5,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 4,
+          "rrf_rank": 14,
+          "rrf_score": 0.015625,
+          "rerank_rank": 5,
+          "rerank_score": 0.9416167
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "question": "How does recovery planning help organizations restore services and capabilities securely and in a timely manner after a cybersecurity event?",
+      "topic": "cybersecurity_recovery",
+      "gold_source_ids": [
+        "nist_sp800_184"
+      ],
+      "gold_chunk_ids": [
+        "2678a15539315d3f0c0c1914",
+        "7a179fb40ca4c218c9197025",
+        "a68a1f3968244c60e85da128"
+      ],
+      "fused_candidate_count": 37,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "88b5e014bb582fdf8fcc1d25",
+        "27b9f3b68b52cdd58b1104ff",
+        "7a179fb40ca4c218c9197025",
+        "9059751181dddc85af4e453a",
+        "ba9d0e9a64da97a349227a10"
+      ],
+      "matched_gold_chunk_ids": [
+        "7a179fb40ca4c218c9197025"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "88b5e014bb582fdf8fcc1d25",
+          "source_id": "nist_sp800_184",
+          "page": 17,
+          "section_id": "",
+          "vector_rank": 16,
+          "bm25_rank": 10,
+          "rrf_rank": 3,
+          "rrf_score": 0.027443609022556388,
+          "rerank_rank": 1,
+          "rerank_score": 0.90102744
+        },
+        {
+          "chunk_id": "27b9f3b68b52cdd58b1104ff",
+          "source_id": "nist_sp800_184",
+          "page": 14,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 16,
+          "rrf_rank": 29,
+          "rrf_score": 0.013157894736842105,
+          "rerank_rank": 2,
+          "rerank_score": 0.89279664
+        },
+        {
+          "chunk_id": "7a179fb40ca4c218c9197025",
+          "source_id": "nist_sp800_184",
+          "page": 12,
+          "section_id": "",
+          "vector_rank": 5,
+          "bm25_rank": 1,
+          "rrf_rank": 1,
+          "rrf_score": 0.03177805800756621,
+          "rerank_rank": 3,
+          "rerank_score": 0.8877607
+        },
+        {
+          "chunk_id": "9059751181dddc85af4e453a",
+          "source_id": "nist_sp800_184",
+          "page": 12,
+          "section_id": "",
+          "vector_rank": 3,
+          "bm25_rank": 6,
+          "rrf_rank": 2,
+          "rrf_score": 0.031024531024531024,
+          "rerank_rank": 4,
+          "rerank_score": 0.87981987
+        },
+        {
+          "chunk_id": "ba9d0e9a64da97a349227a10",
+          "source_id": "nist_sp800_184",
+          "page": 10,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 2,
+          "rrf_rank": 6,
+          "rrf_score": 0.016129032258064516,
+          "rerank_rank": 5,
+          "rerank_score": 0.8742601
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "question": "What does MITRE ATT&CK technique T1055.011 describe?",
+      "topic": "mitre_attack",
+      "gold_source_ids": [
+        "mitre_attack_enterprise_techniques"
+      ],
+      "gold_chunk_ids": [
+        "65cf78a90c1b77b0baf4296b"
+      ],
+      "fused_candidate_count": 36,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "65cf78a90c1b77b0baf4296b",
+        "0c889054f32f2cab41a88b4f",
+        "65f2acb3e14be48cce758598",
+        "eff09f8b233e01aef6224507",
+        "851597a256cf6eb32c6f5c5d"
+      ],
+      "matched_gold_chunk_ids": [
+        "65cf78a90c1b77b0baf4296b"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "65cf78a90c1b77b0baf4296b",
+          "source_id": "mitre_attack_enterprise_techniques",
+          "page": null,
+          "section_id": "T1055.011",
+          "vector_rank": null,
+          "bm25_rank": 20,
+          "rrf_rank": 36,
+          "rrf_score": 0.0125,
+          "rerank_rank": 1,
+          "rerank_score": 0.8965509
+        },
+        {
+          "chunk_id": "0c889054f32f2cab41a88b4f",
+          "source_id": "cisa_ir_playbook",
+          "page": 11,
+          "section_id": "",
+          "vector_rank": 6,
+          "bm25_rank": 2,
+          "rrf_rank": 2,
+          "rrf_score": 0.03128054740957967,
+          "rerank_rank": 2,
+          "rerank_score": 0.48250288
+        },
+        {
+          "chunk_id": "65f2acb3e14be48cce758598",
+          "source_id": "mitre_attack_enterprise_techniques",
+          "page": null,
+          "section_id": "T1601.001",
+          "vector_rank": 18,
+          "bm25_rank": null,
+          "rrf_rank": 33,
+          "rrf_score": 0.01282051282051282,
+          "rerank_rank": 3,
+          "rerank_score": 0.45885846
+        },
+        {
+          "chunk_id": "eff09f8b233e01aef6224507",
+          "source_id": "cisa_ir_playbook",
+          "page": 11,
+          "section_id": "",
+          "vector_rank": 2,
+          "bm25_rank": 1,
+          "rrf_rank": 1,
+          "rrf_score": 0.03252247488101534,
+          "rerank_rank": 4,
+          "rerank_score": 0.36385083
+        },
+        {
+          "chunk_id": "851597a256cf6eb32c6f5c5d",
+          "source_id": "mitre_attack_enterprise_techniques",
+          "page": null,
+          "section_id": "T1218.013",
+          "vector_rank": null,
+          "bm25_rank": 13,
+          "rrf_rank": 23,
+          "rrf_score": 0.0136986301369863,
+          "rerank_rank": 5,
+          "rerank_score": 0.34534863
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "question": "What behaviors and telemetry can defenders monitor to detect Extra Window Memory Injection on Windows?",
+      "topic": "mitre_detection",
+      "gold_source_ids": [
+        "mitre_attack_enterprise_techniques"
+      ],
+      "gold_chunk_ids": [
+        "c6dcec1b09a4a9fbf67488a3"
+      ],
+      "fused_candidate_count": 37,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "c6dcec1b09a4a9fbf67488a3",
+        "65cf78a90c1b77b0baf4296b",
+        "ed3bc3e9542cd24126bcf6f5",
+        "5e33d4195da47914ad937eae",
+        "567309c23f5562cd07cb0aa8"
+      ],
+      "matched_gold_chunk_ids": [
+        "c6dcec1b09a4a9fbf67488a3"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "c6dcec1b09a4a9fbf67488a3",
+          "source_id": "mitre_attack_enterprise_techniques",
+          "page": null,
+          "section_id": "x-mitre-analytic--6ec034ac-289d-48d1-b310-021dfbf7087b",
+          "vector_rank": 1,
+          "bm25_rank": 3,
+          "rrf_rank": 2,
+          "rrf_score": 0.032266458495966696,
+          "rerank_rank": 1,
+          "rerank_score": 0.6366926
+        },
+        {
+          "chunk_id": "65cf78a90c1b77b0baf4296b",
+          "source_id": "mitre_attack_enterprise_techniques",
+          "page": null,
+          "section_id": "T1055.011",
+          "vector_rank": null,
+          "bm25_rank": 2,
+          "rrf_rank": 4,
+          "rrf_score": 0.016129032258064516,
+          "rerank_rank": 2,
+          "rerank_score": 0.62824833
+        },
+        {
+          "chunk_id": "ed3bc3e9542cd24126bcf6f5",
+          "source_id": "mitre_attack_enterprise_techniques",
+          "page": null,
+          "section_id": "x-mitre-detection-strategy--1a8d87f1-48ca-4929-a5cc-2b2a03983f12",
+          "vector_rank": 2,
+          "bm25_rank": 1,
+          "rrf_rank": 1,
+          "rrf_score": 0.03252247488101534,
+          "rerank_rank": 3,
+          "rerank_score": 0.5104727
+        },
+        {
+          "chunk_id": "5e33d4195da47914ad937eae",
+          "source_id": "mitre_attack_enterprise_techniques",
+          "page": null,
+          "section_id": "x-mitre-analytic--217128c5-144d-492b-ab72-bd0704348221",
+          "vector_rank": 7,
+          "bm25_rank": null,
+          "rrf_rank": 12,
+          "rrf_score": 0.014925373134328358,
+          "rerank_rank": 4,
+          "rerank_score": 0.39683983
+        },
+        {
+          "chunk_id": "567309c23f5562cd07cb0aa8",
+          "source_id": "mitre_attack_enterprise_techniques",
+          "page": null,
+          "section_id": "x-mitre-analytic--7faf6f37-f074-4b9d-be19-618c3516486d",
+          "vector_rank": 5,
+          "bm25_rank": null,
+          "rrf_rank": 9,
+          "rrf_score": 0.015384615384615385,
+          "rerank_rank": 5,
+          "rerank_score": 0.3825571
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "question": "What does MITRE ATT&CK describe about the Process Injection technique family?",
+      "topic": "mitre_attack",
+      "gold_source_ids": [
+        "mitre_attack_enterprise_techniques"
+      ],
+      "gold_chunk_ids": [
+        "285bfe6adec51319dc08d2e3"
+      ],
+      "fused_candidate_count": 34,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "285bfe6adec51319dc08d2e3",
+        "1f85db5e5c13f38aa44d9a81",
+        "784676523895ee668d0efce3",
+        "4984708c87b21750a63bd06b",
+        "f145a1087c0317076cdc09cb"
+      ],
+      "matched_gold_chunk_ids": [
+        "285bfe6adec51319dc08d2e3"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "285bfe6adec51319dc08d2e3",
+          "source_id": "mitre_attack_enterprise_techniques",
+          "page": null,
+          "section_id": "T1055",
+          "vector_rank": 1,
+          "bm25_rank": 10,
+          "rrf_rank": 2,
+          "rrf_score": 0.030679156908665108,
+          "rerank_rank": 1,
+          "rerank_score": 0.8747745
+        },
+        {
+          "chunk_id": "1f85db5e5c13f38aa44d9a81",
+          "source_id": "mitre_attack_enterprise_techniques",
+          "page": null,
+          "section_id": "T1055.005",
+          "vector_rank": 11,
+          "bm25_rank": 8,
+          "rrf_rank": 4,
+          "rrf_score": 0.028790389395194696,
+          "rerank_rank": 2,
+          "rerank_score": 0.7613083
+        },
+        {
+          "chunk_id": "784676523895ee668d0efce3",
+          "source_id": "mitre_attack_enterprise_techniques",
+          "page": null,
+          "section_id": "T1055.003",
+          "vector_rank": 17,
+          "bm25_rank": null,
+          "rrf_rank": 29,
+          "rrf_score": 0.012987012987012988,
+          "rerank_rank": 3,
+          "rerank_score": 0.71758664
+        },
+        {
+          "chunk_id": "4984708c87b21750a63bd06b",
+          "source_id": "mitre_attack_enterprise_techniques",
+          "page": null,
+          "section_id": "T1055.002",
+          "vector_rank": 3,
+          "bm25_rank": 4,
+          "rrf_rank": 1,
+          "rrf_score": 0.03149801587301587,
+          "rerank_rank": 4,
+          "rerank_score": 0.6972179
+        },
+        {
+          "chunk_id": "f145a1087c0317076cdc09cb",
+          "source_id": "mitre_attack_enterprise_techniques",
+          "page": null,
+          "section_id": "T1056.004",
+          "vector_rank": 16,
+          "bm25_rank": null,
+          "rrf_rank": 28,
+          "rrf_score": 0.013157894736842105,
+          "rerank_rank": 5,
+          "rerank_score": 0.6937432
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "question": "How should FCEB agencies coordinate incident response and vulnerability response when exploitation of a vulnerability is discovered?",
+      "topic": "incident_operations",
+      "gold_source_ids": [
+        "cisa_ir_playbook"
+      ],
+      "gold_chunk_ids": [
+        "aa53c78edf1b85d5ea4414ed",
+        "b72ed77d48353c6f8bb2b6d8",
+        "41ab484972c8b22d829b3784"
+      ],
+      "fused_candidate_count": 27,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "8d6d72dd32bfc26c87512a4d",
+        "aa53c78edf1b85d5ea4414ed",
+        "df2aa5b4800558f4f10e08d5",
+        "72a9568803ac7f850e00077b",
+        "0a9bae1f9ccf448534c91bf4"
+      ],
+      "matched_gold_chunk_ids": [
+        "aa53c78edf1b85d5ea4414ed"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "8d6d72dd32bfc26c87512a4d",
+          "source_id": "cisa_ir_playbook",
+          "page": 3,
+          "section_id": "",
+          "vector_rank": 4,
+          "bm25_rank": 1,
+          "rrf_rank": 2,
+          "rrf_score": 0.032018442622950824,
+          "rerank_rank": 1,
+          "rerank_score": 0.8893851
+        },
+        {
+          "chunk_id": "aa53c78edf1b85d5ea4414ed",
+          "source_id": "cisa_ir_playbook",
+          "page": 3,
+          "section_id": "",
+          "vector_rank": 1,
+          "bm25_rank": 2,
+          "rrf_rank": 1,
+          "rrf_score": 0.03252247488101534,
+          "rerank_rank": 2,
+          "rerank_score": 0.8467682
+        },
+        {
+          "chunk_id": "df2aa5b4800558f4f10e08d5",
+          "source_id": "cisa_ir_playbook",
+          "page": 4,
+          "section_id": "",
+          "vector_rank": 7,
+          "bm25_rank": 20,
+          "rrf_rank": 9,
+          "rrf_score": 0.027425373134328357,
+          "rerank_rank": 3,
+          "rerank_score": 0.8358192
+        },
+        {
+          "chunk_id": "72a9568803ac7f850e00077b",
+          "source_id": "cisa_ir_playbook",
+          "page": 17,
+          "section_id": "",
+          "vector_rank": 5,
+          "bm25_rank": 8,
+          "rrf_rank": 6,
+          "rrf_score": 0.030090497737556562,
+          "rerank_rank": 4,
+          "rerank_score": 0.82391036
+        },
+        {
+          "chunk_id": "0a9bae1f9ccf448534c91bf4",
+          "source_id": "cisa_ir_playbook",
+          "page": 19,
+          "section_id": "",
+          "vector_rank": 3,
+          "bm25_rank": 5,
+          "rrf_rank": 3,
+          "rrf_score": 0.03125763125763126,
+          "rerank_rank": 5,
+          "rerank_score": 0.82254606
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "question": "What information from logs can help responders understand the scope and impact of an active cybersecurity incident?",
+      "topic": "incident_logging",
+      "gold_source_ids": [
+        "nist_sp1800_26",
+        "nist_sp800_92"
+      ],
+      "gold_chunk_ids": [
+        "c157f3832d9357297b18ca6a",
+        "73dd72f1d001e71df3f14d30"
+      ],
+      "fused_candidate_count": 38,
+      "final_top_k": 5,
+      "retrieved_chunk_ids": [
+        "90d09c2bbeb5244bee14c50a",
+        "4015c632a49077a6c2b17e84",
+        "0b0119353027ab99cbfdbc21",
+        "c157f3832d9357297b18ca6a",
+        "ea23f6a72ab7c9b0ce091b26"
+      ],
+      "matched_gold_chunk_ids": [
+        "c157f3832d9357297b18ca6a"
+      ],
+      "hit": true,
+      "final_evidence": [
+        {
+          "chunk_id": "90d09c2bbeb5244bee14c50a",
+          "source_id": "nist_sp800_61r3",
+          "page": 34,
+          "section_id": "",
+          "vector_rank": null,
+          "bm25_rank": 1,
+          "rrf_rank": 4,
+          "rrf_score": 0.01639344262295082,
+          "rerank_rank": 1,
+          "rerank_score": 0.63125396
+        },
+        {
+          "chunk_id": "4015c632a49077a6c2b17e84",
+          "source_id": "nist_sp800_61r3",
+          "page": 33,
+          "section_id": "",
+          "vector_rank": 15,
+          "bm25_rank": null,
+          "rrf_rank": 29,
+          "rrf_score": 0.013333333333333334,
+          "rerank_rank": 2,
+          "rerank_score": 0.55623144
+        },
+        {
+          "chunk_id": "0b0119353027ab99cbfdbc21",
+          "source_id": "nist_csf2",
+          "page": 26,
+          "section_id": "",
+          "vector_rank": 17,
+          "bm25_rank": 3,
+          "rrf_rank": 1,
+          "rrf_score": 0.02886002886002886,
+          "rerank_rank": 3,
+          "rerank_score": 0.4905535
+        },
+        {
+          "chunk_id": "c157f3832d9357297b18ca6a",
+          "source_id": "nist_sp1800_26",
+          "page": 34,
+          "section_id": "",
+          "vector_rank": 3,
+          "bm25_rank": 20,
+          "rrf_rank": 2,
+          "rrf_score": 0.028373015873015873,
+          "rerank_rank": 4,
+          "rerank_score": 0.47446132
+        },
+        {
+          "chunk_id": "ea23f6a72ab7c9b0ce091b26",
+          "source_id": "nist_sp800_137",
+          "page": 67,
+          "section_id": "",
+          "vector_rank": 5,
+          "bm25_rank": null,
+          "rrf_rank": 10,
+          "rrf_score": 0.015384615384615385,
+          "rerank_rank": 5,
+          "rerank_score": 0.46687052
+        }
+      ]
+    }
+  ]
+}
