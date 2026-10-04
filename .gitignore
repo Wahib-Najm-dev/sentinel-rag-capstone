@@ -1,4 +1,4 @@
-# Virtual environments
+﻿# Virtual environments
 .venv/
 venv/
 env/
@@ -48,5 +48,3 @@ data/raw/*
 !data/raw/.gitkeep
 
 # Generated vector / lexical indexes
-data/index/*
-!data/index/.gitkeep
