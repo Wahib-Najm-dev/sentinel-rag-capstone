@@ -54,3 +54,13 @@ DATA_DIR = "data"
 RAW_DATA_DIR = "data/raw"
 INDEX_DIR = "data/index"
 EVAL_DIR = "data/eval"
+
+# Query embedding runtime
+# Local is the safe default for ingestion and local development.
+# Railway production can set EMBEDDING_PROVIDER=remote.
+EMBEDDING_PROVIDER = os.getenv("EMBEDDING_PROVIDER", "local").strip().lower()
+EMBEDDING_SERVICE_URL = os.getenv("EMBEDDING_SERVICE_URL", "").strip()
+EMBEDDING_SERVICE_TIMEOUT_SECONDS = float(
+    os.getenv("EMBEDDING_SERVICE_TIMEOUT_SECONDS", "60")
+)
+EMBEDDING_DIMENSION = 384

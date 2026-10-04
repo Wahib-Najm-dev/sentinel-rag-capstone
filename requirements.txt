@@ -1,7 +1,7 @@
-streamlit
+﻿streamlit
 cohere
 chromadb
-sentence-transformers
+sentence-transformers==6.1.0
 rank-bm25
 PyMuPDF
 python-dotenv
@@ -9,3 +9,5 @@ numpy
 requests
 beautifulsoup4
 ragas
+fastapi
+uvicorn

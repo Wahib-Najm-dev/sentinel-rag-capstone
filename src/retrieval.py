@@ -1,4 +1,4 @@
-from functools import lru_cache
+﻿from functools import lru_cache
 
 import chromadb
 
@@ -11,7 +11,7 @@ from src.config import (
     INDEX_DIR,
     VECTOR_TOP_K,
 )
-from src.embeddings import embed_query
+from src.embedding_client import embed_query_runtime
 
 
 CHROMA_COLLECTION_NAME = "sentinelrag_chunks"
@@ -80,7 +80,7 @@ def vector_search(
         available,
     )
 
-    query_embedding = embed_query(
+    query_embedding = embed_query_runtime(
         query
     )
 
@@ -384,11 +384,11 @@ def hybrid_retrieve(
     Execute the complete retrieval stage:
 
         Question
-            ↓
+            â†“
         Vector Top-K
             +
         BM25 Top-K
-            ↓
+            â†“
         Reciprocal Rank Fusion
 
     The returned candidates will later be sent to
