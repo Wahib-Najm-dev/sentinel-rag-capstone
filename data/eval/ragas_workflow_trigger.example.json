@@ -1,6 +1,6 @@
 {
-  "scope": "q01",
-  "confirm": "APPROVE-Q01-13",
+  "scope": "remaining19",
+  "confirm": "APPROVE-REMAINING19-247",
   "resume_run_id": null,
-  "note": "EXAMPLE ONLY. Renaming/copying this to ragas_workflow_trigger.json triggers real provider calls when the GitHub secret is configured."
+  "note": "EXAMPLE ONLY. Copying this to ragas_workflow_trigger.json triggers the 19 remaining questions only after explicit approval. q01 is already frozen from GitHub Actions run 37271975469 and is not rerun."
 }
