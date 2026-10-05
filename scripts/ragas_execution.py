@@ -187,18 +187,26 @@ def snapshot_report(ledger, records, frozen_ids=IDS):
             'note': 'Partial means are not a completed 20-question result. No composite score or invented pass threshold.'}
 
 
-async def score_records(records, refs, metrics, judge, ledger, *, limit=1):
-    if tuple(metrics) != METRICS or not 1 <= limit <= len(IDS):
-        raise ValueError('All four metrics and a valid question limit are required.')
+async def score_selected_records(records, refs, metrics, judge, ledger, question_ids):
+    selected = tuple(question_ids)
+    if tuple(metrics) != METRICS:
+        raise ValueError('All four instructor-required metrics must remain present.')
+    if (not selected or len(selected) != len(set(selected))
+            or any(qid not in IDS for qid in selected)
+            or tuple(qid for qid in IDS if qid in selected) != selected):
+        raise ValueError('Question IDs must be a unique ordered subset of the frozen sample.')
     by_id = {r['id']: r for r in records}
     if len(by_id) != len(records):
         raise ValueError('Duplicate recorded question IDs.')
+    if set(by_id) != set(selected):
+        missing = [qid for qid in selected if qid not in by_id]
+        extra = [qid for qid in by_id if qid not in selected]
+        raise ValueError('Recorded question set mismatch; missing=' + ','.join(missing)
+                         + '; extra=' + ','.join(extra))
     for row in records:
         validate_record(row, refs)
         ledger.save('input/' + row['id'], row)
-    for qid in IDS[:limit]:
-        if qid not in by_id:
-            raise ValueError('Missing actual answer for ' + qid)
+    for qid in selected:
         row = by_id[qid]
         for name, metric in metrics.items():
             key = f'result/{qid}/{name}'
@@ -221,4 +229,12 @@ async def score_records(records, refs, metrics, judge, ledger, *, limit=1):
             # Keep the actual library result: do not clip cosine values to inflate them.
             ledger.save(key, {'status': 'complete', 'value': score,
                               'scoring_elapsed_seconds': time.perf_counter() - start})
-    return snapshot_report(ledger, records)
+    return snapshot_report(ledger, records, frozen_ids=selected)
+
+
+async def score_records(records, refs, metrics, judge, ledger, *, limit=1):
+    if not 1 <= limit <= len(IDS):
+        raise ValueError('A valid question limit is required.')
+    return await score_selected_records(
+        records, refs, metrics, judge, ledger, IDS[:limit]
+    )
