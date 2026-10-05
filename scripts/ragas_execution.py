@@ -235,6 +235,9 @@ async def score_selected_records(records, refs, metrics, judge, ledger, question
 async def score_records(records, refs, metrics, judge, ledger, *, limit=1):
     if not 1 <= limit <= len(IDS):
         raise ValueError('A valid question limit is required.')
-    return await score_selected_records(
+    await score_selected_records(
         records, refs, metrics, judge, ledger, IDS[:limit]
     )
+    # Preserve the original public reporting semantics: a pilot is partial
+    # against the full frozen 20-question evaluation.
+    return snapshot_report(ledger, records)
