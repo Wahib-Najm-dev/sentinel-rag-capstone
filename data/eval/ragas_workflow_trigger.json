@@ -1,11 +1,11 @@
 {
-  "scope": "q01",
-  "confirm": "APPROVE-Q01-13",
+  "scope": "remaining19",
+  "confirm": "APPROVE-REMAINING19-247",
   "resume_run_id": null,
   "authorization": {
     "approved_by": "project_owner",
-    "approval_message": "أوافق على تشغيل GitHub Pilot q01 بحد أقصى 13 طلب Cohere إضافي.",
-    "approval_timestamp_utc": "2026-10-05T06:17:09Z",
-    "max_additional_cohere_requests": 13
+    "approval_message": "أوافق على تشغيل remaining19 بحد أقصى 247 طلب Cohere إضافي.",
+    "approval_source": "User approval in prior conversation, 2026-10-05; current request to perform RAGAS evaluation and report.",
+    "max_additional_cohere_requests": 247
   }
 }
