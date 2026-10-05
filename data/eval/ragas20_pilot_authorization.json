@@ -1,0 +1,10 @@
+{
+  "protocol": "sentinelrag-ragas-pilot-authorization-v1",
+  "status": "approved",
+  "qid": "q01",
+  "max_cohere_requests": 13,
+  "approval_message": "وافق على Pilot q01",
+  "approval_timestamp_utc": "2026-10-05T05:21:29Z",
+  "scope": "q01_capture_and_four_required_metrics_only",
+  "full_20_question_run_authorized": false
+}

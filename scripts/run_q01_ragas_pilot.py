@@ -186,8 +186,19 @@ def main():
         print("MODE=VALIDATION_ONLY; COHERE_CALLS=0",flush=True)
         return 0
 
-    if os.getenv("PILOT_EXECUTE")!="q01-approved-13":
-        raise ValueError("Explicit q01 execution gate is not enabled.")
+    authorization=json.loads((ROOT/"data/eval/ragas20_pilot_authorization.json").read_text(encoding="utf-8"))
+    expected_authorization={
+        "protocol":"sentinelrag-ragas-pilot-authorization-v1",
+        "status":"approved",
+        "qid":"q01",
+        "max_cohere_requests":13,
+        "approval_message":"وافق على Pilot q01",
+        "approval_timestamp_utc":"2026-10-05T05:21:29Z",
+        "scope":"q01_capture_and_four_required_metrics_only",
+        "full_20_question_run_authorized":False
+    }
+    if authorization != expected_authorization:
+        raise ValueError("Explicit q01 execution authorization does not match the approved scope.")
     if os.getenv("EMBEDDING_PROVIDER")!="remote":
         raise ValueError("Pilot must use the private remote embedding service.")
     key=os.getenv("COHERE_API_KEY","")
@@ -278,4 +289,14 @@ def main():
 
 
 if __name__=="__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except KeyboardInterrupt:
+        raise
+    except BaseException as exc:
+        # A provider request may already have been billed. Keep this one-off
+        # container alive for inspection instead of letting Railway restart it.
+        print("PILOT_STOPPED="+type(exc).__name__+":"+str(exc), flush=True)
+        print("AUTOMATIC_PROCESS_EXIT=DISABLED; DO_NOT_RETRY_UNCERTAIN_CALLS", flush=True)
+        while True:
+            time.sleep(3600)
