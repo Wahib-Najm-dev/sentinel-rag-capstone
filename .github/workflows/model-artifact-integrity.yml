@@ -1,0 +1,100 @@
+name: Model artifact integrity
+
+on:
+  push:
+    branches: [main, fix/openvino-artifact-integrity]
+    paths:
+      - 'models/e5_openvino_fp16/**'
+      - 'embedding_service.py'
+      - 'scripts/verify_model_artifacts.py'
+      - '.gitattributes'
+      - '.github/workflows/model-artifact-integrity.yml'
+  pull_request:
+    paths:
+      - 'models/e5_openvino_fp16/**'
+      - 'embedding_service.py'
+      - 'scripts/verify_model_artifacts.py'
+      - '.gitattributes'
+      - '.github/workflows/model-artifact-integrity.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: model-integrity-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        autocrlf: ['false', 'true']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check fresh checkout with configured line endings
+        shell: bash
+        run: |
+          git config core.autocrlf '${{ matrix.autocrlf }}'
+          git checkout-index --force --all
+          git check-attr text eol -- models/e5_openvino_fp16/model.xml models/e5_openvino_fp16/tokenizer.json models/e5_openvino_fp16/model.bin.part001
+          python3 scripts/verify_model_artifacts.py
+      - name: Confirm the former Windows checksum and reject modified bytes
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, pathlib, tempfile
+          from scripts.verify_model_artifacts import require_checksum
+          root = pathlib.Path('models/e5_openvino_fp16')
+          manifest = json.loads((root / 'manifest.json').read_text())
+          data = (root / 'model.xml').read_bytes()
+          assert b'\r\n' not in data
+          expected = manifest['files_sha256']['model.xml']
+          original = manifest['text_asset_provenance']['model_xml_original_crlf_sha256']
+          assert hashlib.sha256(data.replace(b'\n', b'\r\n')).hexdigest() == original
+          with tempfile.TemporaryDirectory() as directory:
+              path = pathlib.Path(directory) / 'model.xml'
+              path.write_bytes(data)
+              require_checksum(path, expected)
+              cases = [data + b'X', data[:-1], data.replace(b'\n', b'\r\n')]
+              for corrupted in cases:
+                  path.write_bytes(corrupted)
+                  try:
+                      require_checksum(path, expected)
+                  except ValueError:
+                      pass
+                  else:
+                      raise AssertionError('Unexpected bytes were accepted')
+          print('ORIGINAL_CRLF_PROVENANCE=PASSED')
+          print('CHANGED_BYTES_REJECTED=3/3')
+          print('COHERE_CALLS=0; RAGAS_CALLS=0')
+          PY
+  linux-startup:
+    needs: integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      TOKENIZERS_PARALLELISM: 'false'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      MALLOC_ARENA_MAX: '2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install only the pinned embedding-service dependencies
+        run: |
+          python - <<'PY'
+          import json, pathlib, subprocess, sys
+          manifest = json.loads(pathlib.Path('models/e5_openvino_fp16/manifest.json').read_text())
+          pins = manifest['runtime_dependency_versions']
+          subprocess.run([sys.executable, '-m', 'pip', 'install', '--disable-pip-version-check', *[f'{name}=={value}' for name, value in pins.items()]], check=True)
+          PY
+      - name: Run real model startup and inference without Cohere or Chroma
+        run: python embedding_service.py --smoke-test

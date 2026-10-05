@@ -19,8 +19,14 @@
     }
   ],
   "files_sha256": {
-    "model.xml": "062b86854c8eef9d17b376e1293d6ef08430e3fc32a57e407c70e21675995327",
+    "model.xml": "2c36fe5d32280a1b4296ce775bd2e3f4a3dbfc4b6ce59947412ccf52fa51f08a",
     "tokenizer.json": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39"
+  },
+  "text_asset_provenance": {
+    "canonical_line_endings": "LF",
+    "model_xml_original_crlf_sha256": "062b86854c8eef9d17b376e1293d6ef08430e3fc32a57e407c70e21675995327",
+    "verification": "Replacing LF with CRLF in the repository model.xml reproduces the original approved SHA-256 exactly; model content and weight bytes are unchanged.",
+    "diagnostic_workflow_run": 37255822047
   },
   "openvino_package_version": "2026.4.1",
   "runtime_dependency_versions": {
