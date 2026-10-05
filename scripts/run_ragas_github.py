@@ -26,7 +26,6 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.ragas_execution import IDS, METRICS, Ledger, canonical, references_valid, score_records
-from scripts.ragas_cohere import CohereJudge, CohereHTTP, E5Embeddings, create_metrics
 
 REFERENCE_HASH = "5b28da0ae185ca6bb2c7efca6b17e49cad24c37fb8695445ea12eb6807dcdf39"
 INDEX_SHA256 = "bab9519517382c1161d05fe0d68857d02b0123c099c1615486e159921d22064c"
@@ -109,6 +108,29 @@ def rerank_evidence(candidates: list[dict], response: dict) -> list[dict]:
         item["rerank_score"]=float(score)
         out.append(item)
     return out
+
+
+class CohereChatHTTP:
+    def __init__(self,key: str):
+        if not key.strip():
+            raise ValueError("COHERE_API_KEY is required.")
+        self.key=key.strip()
+
+    def __call__(self,payload):
+        conn=http.client.HTTPSConnection("api.cohere.com",timeout=120,context=ssl.create_default_context())
+        try:
+            conn.request("POST","/v2/chat",body=canonical(payload).encode(),
+                         headers={"Authorization":"Bearer "+self.key,"Content-Type":"application/json",
+                                  "Accept":"application/json","X-Client-Name":"SentinelRAG-GitHub-RAGAS"})
+            response=conn.getresponse()
+            raw=response.read(4*1024*1024+1)
+            if response.status!=200:
+                raise RuntimeError(f"Cohere Chat HTTP {response.status}; no automatic retry.")
+            if len(raw)>4*1024*1024:
+                raise ValueError("Oversized Cohere chat response.")
+            return json.loads(raw)
+        finally:
+            conn.close()
 
 
 class CohereRerankHTTP:
@@ -240,7 +262,7 @@ def main() -> int:
         "required_metrics":list(METRICS),
     }
     ledger=Ledger(args.state_dir/"evaluation-ledger.sqlite3",config,cap,interval=4.1)
-    chat=CohereHTTP(key)
+    chat=CohereChatHTTP(key)
     rerank=CohereRerankHTTP(key)
 
     records=[]
@@ -285,6 +307,8 @@ def main() -> int:
         ledger.save("record/"+qid,record)
         records.append(record)
 
+    # Import RAGAS adapters only after all offline/source/secret gates pass.
+    from scripts.ragas_cohere import CohereJudge, E5Embeddings, create_metrics
     judge=CohereJudge(ledger,chat,JUDGE_MODEL)
     embeddings=E5Embeddings(ledger,e5.embed,E5_BACKEND)
     metrics=create_metrics(judge,embeddings)
