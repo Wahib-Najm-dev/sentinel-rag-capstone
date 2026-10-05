@@ -1,0 +1,52 @@
+name: RAGAS runner offline contract tests
+on:
+  push:
+    branches: [eval/ragas-preparation]
+    paths:
+      - 'scripts/ragas_execution.py'
+      - 'scripts/ragas_cohere.py'
+      - 'scripts/evaluate_ragas.py'
+      - 'tests/test_ragas_execution.py'
+      - 'tests/test_ragas_cohere.py'
+      - '.github/workflows/ragas-runner-tests.yml'
+  pull_request:
+    paths:
+      - 'scripts/ragas_execution.py'
+      - 'scripts/ragas_cohere.py'
+      - 'scripts/evaluate_ragas.py'
+      - 'tests/test_ragas_execution.py'
+      - 'tests/test_ragas_cohere.py'
+      - '.github/workflows/ragas-runner-tests.yml'
+permissions:
+  contents: read
+concurrency:
+  group: ragas-runner-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  offline-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      RAGAS_DO_NOT_TRACK: 'true'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/
+            /tests/
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install evaluation-only test dependencies
+        run: |
+          python -m pip install 'ragas==0.4.3' 'numpy==2.4.6' 'pydantic==2.13.5' 'langchain-community==0.3.31' 'langchain==0.3.27' 'langchain-core>=0.3.78,<1' 'langchain-openai<1'
+          python -m pip check
+      - name: Durable budget and resumption tests
+        run: python -m unittest discover -s tests -p test_ragas_execution.py -v
+      - name: Real Ragas metric classes with mock transport and mock embeddings
+        run: |
+          python -m unittest discover -s tests -p test_ragas_cohere.py -v
+          echo 'OFFLINE_CONTRACT_TESTS=PASSED'
+          echo 'COHERE_REQUESTS=0; MODEL_INFERENCE=NOT_RUN; PROJECT_RAGAS_SCORES=NOT_RUN'

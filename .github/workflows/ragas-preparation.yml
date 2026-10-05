@@ -1,0 +1,106 @@
+name: RAGAS offline preparation
+
+on:
+  push:
+    branches: [eval/ragas-preparation]
+  pull_request:
+    paths:
+      - 'scripts/*ragas*'
+      - 'tests/test_ragas*'
+      - 'docs/ragas*'
+      - 'data/eval/ragas*'
+      - '.github/workflows/ragas-preparation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ragas-preparation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      RAGAS_DO_NOT_TRACK: 'true'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/
+            /tests/
+            /docs/ragas*
+            /data/eval/golden_questions.json
+            /data/eval/ragas*
+            /data/index/chroma.sqlite3
+            /.github/workflows/ragas-preparation.yml
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Offline standard-library unit tests
+        run: |
+          python - <<'PY'
+          import pathlib, sys, unittest
+          suite = unittest.TestSuite()
+          for path in sorted(pathlib.Path('tests').glob('test_ragas*.py')):
+              if path.name == 'test_ragas_cohere.py':
+                  continue  # Real Ragas dependency contracts run in their dedicated workflow.
+              suite.addTests(unittest.defaultTestLoader.discover('tests', pattern=path.name))
+          result = unittest.TextTestRunner(verbosity=2).run(suite)
+          sys.exit(not result.wasSuccessful())
+          PY
+      - name: Export real frozen reference evidence
+        run: |
+          python scripts/prepare_ragas.py
+          python scripts/prepare_ragas.py --prepare-review
+          python scripts/export_ragas_reference_context.py
+      - name: Check frozen data, drafts and pending approvals
+        run: |
+          python - <<'PY'
+          import json, pathlib, shutil, subprocess, sys
+          root = pathlib.Path('.cache/ragas-review')
+          path = root / 'ragas20_reference_review.json'
+          packet = json.loads(path.read_text())
+          drafts = json.loads(pathlib.Path('data/eval/ragas20_reference_drafts.json').read_text())
+          assert len(packet['questions']) == len(drafts['questions']) == 20
+          assert packet['scores'] is None and packet['api_calls_performed'] == 0
+          result = subprocess.run([sys.executable, 'scripts/prepare_ragas.py', '--check-reviewed', str(path)])
+          assert result.returncode == 2
+          for field in ('golden_git_blob','golden_semantic_sha256','index_sha256','selection_seed'):
+              assert drafts[field] == packet[field]
+          assert drafts['status'] == 'ai_assisted_drafts_pending_human_review'
+          assert drafts['reviewed_by'] is None
+          assert drafts['cohere_calls'] == 0 and drafts['ragas_scores'] is None
+          for draft, row in zip(drafts['questions'], packet['questions']):
+              assert draft['id'] == row['id']
+              assert draft['supporting_chunk_ids'] == row['gold_chunk_ids']
+              assert isinstance(draft['reference_draft'], str) and draft['reference_draft'].strip()
+              assert draft['review_status'] == 'pending'
+          subprocess.run(['git','diff','--exit-code','--','data/index/chroma.sqlite3','data/eval/golden_questions.json'],check=True)
+          shutil.copy2('data/eval/ragas20_reference_drafts.json',root / 'ragas20_reference_drafts.json')
+          shutil.copy2('.cache/ragas-reference-context.json',root / 'ragas-reference-context.json')
+          for name in ['scripts/prepare_ragas.py','scripts/export_ragas_reference_context.py','tests/test_ragas_preparation.py','docs/ragas_evaluation_plan.md','data/eval/golden_questions.json','data/eval/ragas20_reference_drafts.json','.github/workflows/ragas-preparation.yml']:
+              target = root / 'source_inputs' / name
+              target.parent.mkdir(parents=True,exist_ok=True)
+              shutil.copy2(name,target)
+          print('REAL_GOLD_EVIDENCE_EXPORT=20_QUESTIONS_35_PASSAGES')
+          print('READ_ONLY_INDEX_CHECK=PASSED; UNREVIEWED_REFERENCES_BLOCKED=PASSED')
+          print('REFERENCE_DRAFT_STRUCTURE_AND_PROVENANCE=20/20')
+          print('HUMAN_APPROVAL=NOT_CLAIMED; COHERE_CALLS=0; RAGAS_SCORES=NOT_RUN')
+          PY
+      - name: Validate claim-level reference audit when present
+        shell: bash
+        run: |
+          if test -f scripts/audit_ragas_references.py; then
+            python scripts/audit_ragas_references.py
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ragas20-reference-review
+          path: .cache/ragas-review/
+          retention-days: 14
+          if-no-files-found: error
+          include-hidden-files: true

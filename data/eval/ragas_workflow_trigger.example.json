@@ -1,0 +1,6 @@
+{
+  "scope": "remaining19",
+  "confirm": "APPROVE-REMAINING19-247",
+  "resume_run_id": null,
+  "note": "EXAMPLE ONLY. Copying this to ragas_workflow_trigger.json triggers the 19 remaining questions only after explicit approval. q01 is already frozen from GitHub Actions run 37271975469 and is not rerun."
+}
