@@ -25,7 +25,9 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.ragas_execution import IDS, METRICS, Ledger, canonical, references_valid, score_records
+from scripts.ragas_execution import (
+    IDS, METRICS, Ledger, canonical, references_valid, score_selected_records,
+)
 
 REFERENCE_HASH = "5b28da0ae185ca6bb2c7efca6b17e49cad24c37fb8695445ea12eb6807dcdf39"
 INDEX_SHA256 = "bab9519517382c1161d05fe0d68857d02b0123c099c1615486e159921d22064c"
@@ -35,8 +37,82 @@ GENERATOR_MODEL = "command-r7b-12-2024"
 RERANK_MODEL = "rerank-v3.5"
 JUDGE_MODEL = "command-r7b-12-2024"
 REQUESTS_PER_QUESTION = 13
-ALLOWED_SCOPES = {"q01":1, "all20":20}
-CONFIRMATIONS = {"q01":"APPROVE-Q01-13", "all20":"APPROVE-ALL20-260"}
+SCOPE_IDS = {"remaining19": IDS[1:]}
+CONFIRMATIONS = {"remaining19":"APPROVE-REMAINING19-247"}
+Q01_SEED_PATH = ROOT / "data/eval/ragas_q01_pilot_result.json"
+
+
+def load_q01_seed() -> dict:
+    seed=json.loads(Q01_SEED_PATH.read_text(encoding="utf-8"))
+    expected_metrics={
+        "Faithfulness":1.0,
+        "Answer Relevancy":0.9599938696232599,
+        "Context Precision":0.5333333333155555,
+        "Context Recall":1.0,
+    }
+    if (seed.get("protocol")!="sentinelrag-ragas-q01-seed-v1"
+            or seed.get("status")!="complete"
+            or seed.get("question_id")!="q01"
+            or seed.get("reference_set_sha256")!=REFERENCE_HASH
+            or seed.get("pipeline_snapshot")!=PIPELINE_COMMIT
+            or seed.get("retrieval_config")!=RETRIEVAL_CONFIG
+            or seed.get("provider_attempts")!=13
+            or seed.get("metrics")!=expected_metrics
+            or seed.get("source",{}).get("github_actions_run_id")!=37271975469
+            or seed.get("source",{}).get("github_actions_job_id")!=111640711961
+            or seed.get("source",{}).get("head_sha")!="39ebe970eaf017de7c92e23981435e9191a2d02f"):
+        raise ValueError("q01 seed no longer matches the verified successful GitHub Actions pilot.")
+    return seed
+
+
+def combine_q01_seed(report: dict, seed: dict) -> dict:
+    if report.get("expected_questions") != 19:
+        raise ValueError("Expected a 19-question remainder report.")
+    q01={
+        "id":"q01",
+        "metrics":{
+            name:{
+                "status":"complete",
+                "value":seed["metrics"][name],
+                "source":"github_actions_run_37271975469_log",
+            }
+            for name in METRICS
+        },
+    }
+    questions=[q01]+report["questions"]
+    summary={}
+    for name in METRICS:
+        values=[
+            row["metrics"][name]["value"]
+            for row in questions
+            if row["metrics"][name]["status"]=="complete"
+        ]
+        summary[name]={
+            "valid_count":len(values),
+            "expected_count":20,
+            "mean_over_valid":sum(values)/len(values) if values else None,
+        }
+    completed=sum(
+        all(row["metrics"][name]["status"]=="complete" for name in METRICS)
+        for row in questions
+    )
+    return {
+        "protocol":"sentinelrag-ragas-results-v1",
+        "status":"complete" if completed==20 else "partial",
+        "completed_questions":completed,
+        "expected_questions":20,
+        "reference_set_sha256":REFERENCE_HASH,
+        "summary":summary,
+        "questions":questions,
+        "q01_seed_provenance":{
+            "github_actions_run_id":37271975469,
+            "github_actions_job_id":111640711961,
+            "provider_attempts":13,
+            "raw_state_artifact_available":False,
+            "note":seed["raw_state_artifact_note"],
+        },
+        "note":"q01 was evaluated in the successful approved pilot and is not rerun. Remaining questions use the durable ledger. No composite pass threshold is invented.",
+    }
 
 
 def sha256_file(path: Path) -> str:
@@ -212,15 +288,20 @@ def markdown_report(report: dict, provider_attempts: int, scope: str) -> str:
 
 def main() -> int:
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--scope",choices=sorted(ALLOWED_SCOPES),required=True)
+    parser.add_argument("--scope",choices=sorted(SCOPE_IDS),required=True)
     parser.add_argument("--confirm",required=True)
     parser.add_argument("--state-dir",type=Path,default=ROOT/".ragas-state")
     args=parser.parse_args()
 
     if args.confirm != CONFIRMATIONS[args.scope]:
         raise ValueError("Evaluation confirmation string does not match the requested scope.")
-    count=ALLOWED_SCOPES[args.scope]
-    cap=REQUESTS_PER_QUESTION*count
+    selected_ids=tuple(SCOPE_IDS[args.scope])
+    if selected_ids != IDS[1:] or len(selected_ids)!=19:
+        raise ValueError("Only the frozen q03-q30 remainder is allowed after the completed q01 pilot.")
+    cap=REQUESTS_PER_QUESTION*len(selected_ids)
+    if cap != 247:
+        raise ValueError("Remaining evaluation budget must be exactly 247 provider attempts.")
+    q01_seed=load_q01_seed()
 
     refs=load_references()
     if tuple(refs)!=IDS:
@@ -249,7 +330,8 @@ def main() -> int:
     config={
         "protocol":"sentinelrag-github-ragas-v1",
         "scope":args.scope,
-        "question_ids":list(IDS[:count]),
+        "question_ids":list(selected_ids),
+        "q01_seed_run_id":q01_seed["source"]["github_actions_run_id"],
         "reference_set_sha256":REFERENCE_HASH,
         "pipeline_snapshot":PIPELINE_COMMIT,
         "index_sha256":INDEX_SHA256,
@@ -266,7 +348,7 @@ def main() -> int:
     rerank=CohereRerankHTTP(key)
 
     records=[]
-    for qid in IDS[:count]:
+    for qid in selected_ids:
         saved=ledger.get("record/"+qid)
         if saved is not None:
             records.append(saved)
@@ -312,9 +394,14 @@ def main() -> int:
     judge=CohereJudge(ledger,chat,JUDGE_MODEL)
     embeddings=E5Embeddings(ledger,e5.embed,E5_BACKEND)
     metrics=create_metrics(judge,embeddings)
-    report=asyncio.run(score_records(records,refs,metrics,judge,ledger,limit=count))
-    report["provider_attempts"]=ledger.count()
-    report["provider_attempt_cap"]=cap
+    remainder=asyncio.run(
+        score_selected_records(records,refs,metrics,judge,ledger,selected_ids)
+    )
+    report=combine_q01_seed(remainder,q01_seed)
+    report["provider_attempts_remaining_run"]=ledger.count()
+    report["provider_attempt_cap_remaining_run"]=cap
+    report["provider_attempts_total_including_q01"]=13+ledger.count()
+    report["provider_attempt_cap_total"]=260
     report["scope"]=args.scope
     report["models"]={"generator":GENERATOR_MODEL,"reranker":RERANK_MODEL,"judge":JUDGE_MODEL}
     report["retrieval_config"]=RETRIEVAL_CONFIG
@@ -333,7 +420,8 @@ def main() -> int:
     })
     print("RAGAS_SCOPE="+args.scope,flush=True)
     print("COMPLETED_QUESTIONS="+str(report["completed_questions"]),flush=True)
-    print("COHERE_ATTEMPTS="+str(ledger.count())+"/"+str(cap),flush=True)
+    print("COHERE_ATTEMPTS_REMAINING="+str(ledger.count())+"/"+str(cap),flush=True)
+    print("COHERE_ATTEMPTS_TOTAL_WITH_Q01="+str(13+ledger.count())+"/260",flush=True)
     print("RAGAS_SUMMARY="+canonical(report["summary"]),flush=True)
     print("RESULT_JSON="+str(args.state_dir/"ragas_report.json"),flush=True)
     return 0
