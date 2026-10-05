@@ -1,0 +1,13 @@
+{
+  "protocol": "ragas20-reference-approval-v1",
+  "status": "approved",
+  "reference_set_sha256": "5b28da0ae185ca6bb2c7efca6b17e49cad24c37fb8695445ea12eb6807dcdf39",
+  "approved_by": "project_owner",
+  "approval_source": "ChatGPT conversation",
+  "approval_message": "يعتمد",
+  "approval_timestamp_utc": "2026-10-05T05:05:55Z",
+  "scope": "reference_answers_only",
+  "human_expert_review_claimed": false,
+  "paid_or_trial_api_execution_authorized": false,
+  "note": "This records the project owner's approval of the frozen 20 reference answers only. It is not authorization to spend API quota and does not claim independent expert review."
+}
