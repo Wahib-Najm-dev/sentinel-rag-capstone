@@ -27,10 +27,13 @@ Do not commit the key to any file.
 
 The evaluator supports:
 
-- `q01`: exact confirmation `APPROVE-Q01-13`, lifetime cap 13 Cohere attempts.
-- `all20`: exact confirmation `APPROVE-ALL20-260`, lifetime cap 260 Cohere attempts.
+The q01 pilot completed successfully in GitHub Actions run `37271975469` using exactly 13/13 Cohere attempts. Its four scores are frozen in `data/eval/ragas_q01_pilot_result.json` and q01 must not be silently rerun.
 
-Creating the workflow does not authorize either run. A real trigger is created only after explicit approval of the requested scope.
+The only remaining live scope is:
+
+- `remaining19`: exact confirmation `APPROVE-REMAINING19-247`, lifetime cap 247 additional Cohere attempts.
+
+The final report combines the verified q01 scores with q03-q30. Creating this workflow does not authorize the remaining 19-question run; a new explicit approval is required.
 
 ## Triggering from this evaluation branch
 
@@ -38,13 +41,13 @@ The workflow listens for a push that changes:
 
 `data/eval/ragas_workflow_trigger.json`
 
-A non-executing example is stored as `data/eval/ragas_workflow_trigger.example.json`.
+A non-executing remaining19 example is stored as `data/eval/ragas_workflow_trigger.example.json`.
 
 The workflow also declares `workflow_dispatch`; because this evaluation workflow is intentionally kept off production `main`, the branch trigger is the reliable path until it is later merged.
 
 ## Resumption
 
-Every run uploads `ragas-evaluation-state` for 30 days. It contains the durable request ledger, actual recorded answers and contexts, and partial/final RAGAS reports.
+Every future run uploads `ragas-evaluation-state` for 30 days with hidden files explicitly enabled. It contains the durable request ledger, actual recorded answers and contexts, and partial/final RAGAS reports. The successful q01 run predates that fix: its hidden state directory was not uploaded, so its scores and attempt count were preserved from the GitHub Actions log and are transparently marked as such.
 
 To resume, set `resume_run_id` in the next trigger to the prior Actions run ID. Completed provider requests are reused. Reserved or failed requests are not silently repeated.
 
