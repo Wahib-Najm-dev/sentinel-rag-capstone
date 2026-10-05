@@ -1,0 +1,6 @@
+{
+  "scope": "q01",
+  "confirm": "APPROVE-Q01-13",
+  "resume_run_id": null,
+  "note": "EXAMPLE ONLY. Renaming/copying this to ragas_workflow_trigger.json triggers real provider calls when the GitHub secret is configured."
+}
