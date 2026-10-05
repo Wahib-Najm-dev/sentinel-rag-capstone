@@ -1,0 +1,6 @@
+# Model metadata is hashed as exact bytes: keep LF on every platform.
+/models/e5_openvino_fp16/model.xml text eol=lf
+/models/e5_openvino_fp16/tokenizer.json text eol=lf
+/models/e5_openvino_fp16/manifest.json text eol=lf
+# Never transform split model weights.
+/models/e5_openvino_fp16/model.bin.part* -text
