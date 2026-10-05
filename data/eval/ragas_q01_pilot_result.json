@@ -1,0 +1,38 @@
+{
+  "protocol": "sentinelrag-ragas-q01-seed-v1",
+  "status": "complete",
+  "question_id": "q01",
+  "source": {
+    "github_actions_run_id": 37271975469,
+    "github_actions_job_id": 111640711961,
+    "head_sha": "39ebe970eaf017de7c92e23981435e9191a2d02f",
+    "workflow": ".github/workflows/ragas-evaluation.yml",
+    "completed_at_utc": "2026-10-05T06:23:11Z",
+    "log_evidence": {
+      "completed_questions": 1,
+      "cohere_attempts": "13/13"
+    }
+  },
+  "reference_set_sha256": "5b28da0ae185ca6bb2c7efca6b17e49cad24c37fb8695445ea12eb6807dcdf39",
+  "pipeline_snapshot": "8309d67b917945f75692931aca77c68915a72c19",
+  "retrieval_config": {
+    "vector_top_k": 25,
+    "bm25_top_k": 20,
+    "rrf_k": 60,
+    "top_n": 5
+  },
+  "models": {
+    "generator": "command-r7b-12-2024",
+    "reranker": "rerank-v3.5",
+    "judge": "command-r7b-12-2024"
+  },
+  "metrics": {
+    "Faithfulness": 1.0,
+    "Answer Relevancy": 0.9599938696232599,
+    "Context Precision": 0.5333333333155555,
+    "Context Recall": 1.0
+  },
+  "provider_attempts": 13,
+  "raw_state_artifact_available": false,
+  "raw_state_artifact_note": "The successful run wrote its state under .ragas-state, but actions/upload-artifact@v4 excluded the hidden directory because include-hidden-files was not enabled. The four scores and 13/13 attempt count are preserved in the GitHub Actions job log. q01 must not be silently rerun to repair this archival mistake."
+}
