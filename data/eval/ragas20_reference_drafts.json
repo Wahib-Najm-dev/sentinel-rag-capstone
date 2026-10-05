@@ -1,0 +1,142 @@
+{
+  "protocol": "ragas20-reference-drafts-v1",
+  "status": "ai_assisted_drafts_pending_human_review",
+  "reviewed_by": null,
+  "source_commit": "8309d67b917945f75692931aca77c68915a72c19",
+  "source_workflow_run": 37260973749,
+  "source_artifact_id": 11324606068,
+  "golden_git_blob": "c908c6dce6434f7259db3af8991da7d8b41c563d",
+  "golden_semantic_sha256": "75794d0b7191a6fbae8eb84466073ca0ffb13ad7ab35d623b77762321a304ff3",
+  "index_sha256": "bab9519517382c1161d05fe0d68857d02b0123c099c1615486e159921d22064c",
+  "selection_seed": "sentinelrag-ragas20-v1",
+  "method": "AI-assisted drafts based on the 35 exact gold passages in the read-only review export, not on system-generated answers or earlier hit/miss scores. No human approval is claimed. These are not evaluation results.",
+  "required_next_step": "Review support and coverage against the frozen evidence. Transfer only approved reference text and the actual reviewer identity into the reference-review packet. Resolve coverage notes before scoring; do not silently change the sample or Golden Labels.",
+  "cohere_calls": 0,
+  "ragas_scores": null,
+  "questions": [
+    {
+      "id": "q01",
+      "reference_draft": "Incident handlers verify that an incident has occurred, collect and analyze data and evidence, prioritize response work, limit damage, identify root causes, and restore operations. They also provide input on mitigating vulnerabilities and improving resilience. Organizational leadership oversees this work, allocates resources, and decides on high-impact actions such as shutting down or rebuilding critical services. When several response teams participate, their activities should be coordinated.",
+      "supporting_chunk_ids": ["8d37e8c0bc18ca3ad958815c"],
+      "review_status": "pending",
+      "review_notes": "The selected passage is organized by response roles and responsibilities, not an exhaustive named incident-response lifecycle. Do not expand it with unsupported phase names."
+    },
+    {
+      "id": "q03",
+      "reference_draft": "Quickly isolate affected devices from networks to restrict further spread; disconnect wired and wireless connections and coordinate the isolation of systems. Use out-of-band communications, such as telephone calls, to avoid warning an attacker through a compromised network. For affected cloud resources, take volume snapshots that can support forensic review. Power down a device only when it cannot otherwise be disconnected or temporarily isolated: shutdown sacrifices evidence in volatile memory. Identify and prioritize critical systems, and plan restoration on a clean network using asset criticality and dependencies.",
+      "supporting_chunk_ids": ["117a56bc925f10a06a5882f8"],
+      "review_status": "pending"
+    },
+    {
+      "id": "q04",
+      "reference_draft": "Protect important assets through an inventory and vulnerability-management capability, integrity monitoring against known baselines, enterprise logging, backups, and secure storage such as write-once/read-many storage. Network protection can help prevent intrusion and lateral movement, while denylisting and application or communication restrictions constrain unwanted activity. Use the inventory, monitoring, and logging information to guide protection and policy enforcement, including repair and patching. Encryption alone should not be treated as protection against data corruption.",
+      "supporting_chunk_ids": ["747bba6062b5e56f3f85bd22"],
+      "review_status": "pending"
+    },
+    {
+      "id": "q08",
+      "reference_draft": "Before an incident, establish several ways to identify infected hosts and procedures that can scale to a widespread outbreak. Prioritize incidents using general incident-response criteria together with malware-specific considerations. Analyze malware behavior through suitable host examination and analysis. Decide on containment early, with the aim of stopping propagation and preventing additional damage; choose a combination of methods appropriate to the situation and the organization's risk tolerance. Give users clear instructions, but do not make user actions the primary containment mechanism.",
+      "supporting_chunk_ids": ["5fefb684f2eeec739da2b4cd"],
+      "review_status": "pending"
+    },
+    {
+      "id": "q09",
+      "reference_draft": "A forensic capability helps reconstruct events on systems and networks, determine what occurred, and assess matters such as exposure of sensitive information. Evidence obtained through collection, examination, analysis, and reporting supports more confident incident-response decisions. The same capability can assist investigations, audits, troubleshooting, and recovery of accidentally lost data. Organizations should assign appropriate forensic responsibilities and decide how much capability to provide internally or externally based on expertise, cost, response needs, and data sensitivity.",
+      "supporting_chunk_ids": ["7e3f77fb411066f6796183e7"],
+      "review_status": "pending"
+    },
+    {
+      "id": "q11",
+      "reference_draft": "Investigators should understand the hardware and software characteristics of a mobile device because these affect how it can be preserved, handled, and examined and how relevant data can be extracted. The forensic process should address preservation, acquisition, examination, analysis, and reporting through appropriate policies and procedures that maintain evidentiary integrity. On-site triage and processing an investigation backlog are also relevant. The cited passage provides a high-level framework, not a universal device-specific acquisition procedure or instructions for a particular tool.",
+      "supporting_chunk_ids": ["818034b957caaa583b3446d0"],
+      "review_status": "pending",
+      "review_notes": "Evidence is high-level mobile-forensics guidance. Device-specific preservation or acquisition commands are intentionally not invented."
+    },
+    {
+      "id": "q12",
+      "reference_draft": "Define application logging requirements according to the application's risks and the intended use of the logs; excessive undifferentiated events can obscure significant activity. Relevant categories in the supplied evidence include input and output validation failures; successful and failed authentication; logging startup, shutdown, or interruption; account, privilege, and other administrative changes; sensitive-data access and cryptographic activity; system-object creation or deletion; data import/export, uploads, and deserialization failures; backend, network, and TLS failures; and suspicious business-logic sequences or attempts to bypass limits. Depending on risk, record additional suspicious use and unexpected configuration or code changes. This is a source-supported list, not a requirement that every application log every possible event.",
+      "supporting_chunk_ids": ["62a947c5ac1e3eb9b252bab1", "b5a5d0e4c638067e91e8ede3"],
+      "review_status": "pending",
+      "review_notes": "The selected chunks do not contain every item described in the annotation notes. In particular, do not infer an unseen authorization/session-failure list from the notes alone. Review coverage before approval."
+    },
+    {
+      "id": "q13",
+      "reference_draft": "Application logs provide context that infrastructure logs may not contain, including the acting user, roles and permissions, the target and action, and the result. This information supports detection of security incidents, policy violations, and automated abuse, as well as establishment of normal-activity baselines. A chronological audit trail can help reconstruct transactions and investigate what happened. Consistent formats and event definitions make correlation and analysis easier; log content should be chosen for its purpose.",
+      "supporting_chunk_ids": ["e6214dc3f4361496f90d1921", "b51e97c9975945ab09d3c21d"],
+      "review_status": "pending"
+    },
+    {
+      "id": "q14",
+      "reference_draft": "Information security continuous monitoring maintains awareness of threats and vulnerabilities, visibility into organizational assets, and information about the effectiveness of security controls. It supports ongoing assurance that controls remain appropriate to the organization's risk tolerance and provides information for timely risk-management decisions and responses. The monitoring strategy itself should be reviewed regularly as risks and organizational needs change.",
+      "supporting_chunk_ids": ["4bbb208f2b60dd223a7463d1"],
+      "review_status": "pending"
+    },
+    {
+      "id": "q15",
+      "reference_draft": "Use secure password storage and the framework's safe password-hash comparison facilities, with appropriate input-length limits, explicit type handling, and constant-time comparison where applicable. Require multifactor authentication where practical and limit repeated login attempts through throttling and carefully designed lockout rules; associate failed-attempt counters with the account rather than relying only on an IP address. Balance those rules against denial-of-service and usability risks. Password changes should require an authenticated session and verification of the current password. Protect both the login page and all subsequent authenticated pages with TLS or another strong transport.",
+      "supporting_chunk_ids": ["243b19f895f7a8d5d6ffaef7", "8c1e8f8acf8189e5a88a3aa1", "98aff56942ef036b8ae8bc7e"],
+      "review_status": "pending"
+    },
+    {
+      "id": "q16",
+      "reference_draft": "Multifactor authentication combines independent factors so that possession of a compromised password alone is insufficient to authenticate. Two credentials of the same factor type, such as a password and a PIN, do not provide this separation. The factors should not be susceptible to the same compromise. This additional barrier is especially valuable when passwords are weak, reused, stolen, or otherwise exposed and helps resist password-based attacks such as brute force, credential stuffing, and password spraying.",
+      "supporting_chunk_ids": ["65f4c7744752090789cdf314", "0b3c1dcb836ee5636de046d1"],
+      "review_status": "pending"
+    },
+    {
+      "id": "q17",
+      "reference_draft": "Prefer multifactor authentication where practical, including phishing-resistant approaches such as FIDO2/passkeys. Use layered controls rather than a single per-IP block: combine monitoring of authentication patterns, graduated restrictions, and IP, proxy, or hosting intelligence. Apply CAPTCHA selectively to suspicious attempts to raise the cost of automation, recognizing that it can be bypassed and affects usability. Temporary IP restrictions should be reconsidered as abuse subsides, and distributed proxy traffic requires analysis beyond a single source address. Account notification and account-level responses can be appropriate when the observed risk warrants them.",
+      "supporting_chunk_ids": ["5bc8945cc41a84312c34c359", "2bbce62afada2c22398c3411", "d0c5dfa059e06c6c580a5c6f"],
+      "review_status": "pending"
+    },
+    {
+      "id": "q18",
+      "reference_draft": "Make password-reset request responses consistent in wording and response time regardless of whether an account exists, and limit abusive reset submissions with per-account controls or CAPTCHA. Validate request inputs. Generate reset tokens with a cryptographically secure random generator, make them sufficiently long to resist guessing, bind them to the intended account, store them securely, and invalidate them after use. Deliver URL tokens through the intended recovery channel, and construct reset URLs from a trusted configured domain or a validated allowlist rather than blindly accepting the Host header. These selected excerpts do not establish a specific token expiration interval.",
+      "supporting_chunk_ids": ["049b84641ef435be1bb185ce", "9ac9156f3eec1dc42c503e50"],
+      "review_status": "pending",
+      "review_notes": "Review token-lifetime coverage before approval. The annotation mentions expiry, but the selected excerpts do not specify a concrete expiration policy; no interval has been invented."
+    },
+    {
+      "id": "q19",
+      "reference_draft": "Protect session identifiers in transit with HTTPS and the Secure cookie attribute; HTTPS alone is not sufficient if the browser can send the cookie on an unprotected request. Use HttpOnly to prevent scripts from reading the cookie, while recognizing that this does not eliminate every XSS or CSRF risk because the browser can still send cookies automatically. Regenerate the session identifier after authentication or other privilege changes and invalidate the previous identifier. This helps prevent retaining a preexisting identifier for a newly privileged session and counters session fixation.",
+      "supporting_chunk_ids": ["2530a275d5a5d8a46ed0bb60", "340dad1eaa8b80ffb1908d26", "7515d743656fe07bd020ab23"],
+      "review_status": "pending"
+    },
+    {
+      "id": "q20",
+      "reference_draft": "Expose REST endpoints only over HTTPS and consider client certificates for highly privileged services. Apply authentication and authorization to nonpublic endpoints, with endpoint-level access-control decisions and an appropriate trusted identity/token mechanism. Validate untrusted inputs for type, length, range, and format, reject invalid requests, enforce request-size and content-type restrictions, and configure parsers securely. Control automated abuse with request limits and return HTTP 429 when clients send requests too quickly. Where API keys are used, require them on protected requests and revoke them for misuse, but do not rely on an API key alone to secure sensitive or high-value resources.",
+      "supporting_chunk_ids": ["16d6ce82655e8e86ed8ef66d", "7c3820e813dca29a8f71b07c", "d79ce7a5fd79326897d3c448"],
+      "review_status": "pending"
+    },
+    {
+      "id": "q23",
+      "reference_draft": "Plan assessments through an approved policy defining requirements, responsibilities, methodology, frequency, and documentation. Prioritize and schedule the work, choose techniques appropriate to the objectives, risks, and resources, and address logistical and legal issues in an assessment plan or rules of engagement. During execution, follow that plan, coordinate with stakeholders, manage operational impact and access, communicate important findings, and handle assessment data appropriately through its lifecycle. Follow up by analyzing findings and root causes and identifying actionable technical and process improvements. Review the assessment policy periodically, at least annually and when new requirements arise, and incorporate lessons learned.",
+      "supporting_chunk_ids": ["ce33b6ff2a48d60facaa91c0", "ee43c27927da4c48d47d1b41", "e53f51d78867902fa4d95eb6"],
+      "review_status": "pending"
+    },
+    {
+      "id": "q26",
+      "reference_draft": "MITRE ATT&CK T1055.011 is Extra Window Memory Injection. It describes using extra memory associated with Windows graphical window classes, including stored function pointers, to redirect execution to malicious code in another running process. Running in the other process's context can help evade process-based defenses and may allow the attacker to obtain that process's privileges.",
+      "supporting_chunk_ids": ["65cf78a90c1b77b0baf4296b"],
+      "review_status": "pending"
+    },
+    {
+      "id": "q27",
+      "reference_draft": "Monitor manipulation of Extra Window Memory through calls such as SetWindowLong or SetClassLong, redirection of function pointers to injected code in shared memory, and execution triggered through window messages such as SendNotifyMessage. The cited analytic identifies Sysmon Event ID 10, Microsoft-Windows-Win32k ETW activity, and Windows Security Event ID 4688 as relevant telemetry. Useful Win32k events include SetWindowLong, SetClassLong, NtUserMessageCall, SendNotifyMessage, and PostMessage.",
+      "supporting_chunk_ids": ["c6dcec1b09a4a9fbf67488a3"],
+      "review_status": "pending"
+    },
+    {
+      "id": "q28",
+      "reference_draft": "The Process Injection family, MITRE ATT&CK T1055, describes executing code within the address space of another running process. The injected code can operate with that process's access to memory and system or network resources and may gain its privileges while appearing to be part of a legitimate process. The family covers multiple platform-specific techniques across major operating systems, often involving misuse of legitimate functionality. More complex activity can chain injections or coordinate components across processes to make detection harder.",
+      "supporting_chunk_ids": ["285bfe6adec51319dc08d2e3"],
+      "review_status": "pending"
+    },
+    {
+      "id": "q30",
+      "reference_draft": "Logs can help identify the systems affected by an active incident and the programs responsible for the observed activity. Responders can use that information to guide containment, mitigation, forensic analysis, and remediation. Comparing infrastructure logs with system logs can also reveal data that was changed or removed and help identify activity an attacker tried to conceal, especially when one set of logs has been altered. These observations support understanding the incident's scope and impact and decisions about subsequent protective measures.",
+      "supporting_chunk_ids": ["c157f3832d9357297b18ca6a", "73dd72f1d001e71df3f14d30"],
+      "review_status": "pending"
+    }
+  ]
+}
