@@ -1,0 +1,36 @@
+name: RAGAS GitHub Runner Offline Tests
+
+on:
+  push:
+    branches:
+      - eval/ragas-preparation
+    paths:
+      - scripts/run_ragas_github.py
+      - requirements-ragas-github.txt
+      - tests/test_ragas_github_runner.py
+      - .github/workflows/ragas-evaluation.yml
+      - .github/workflows/ragas-github-runner-tests.yml
+  pull_request:
+    paths:
+      - scripts/run_ragas_github.py
+      - tests/test_ragas_github_runner.py
+      - .github/workflows/ragas-evaluation.yml
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Static runner unit tests without provider calls
+        run: |
+          python -m unittest tests.test_ragas_github_runner -v
+          echo "COHERE_CALLS=0; RAGAS_SCORES=NOT_RUN"
