@@ -147,7 +147,7 @@ The detailed source inventory is maintained in:
 
 `data/sources_manifest.csv`
 
-The source collection requirement specifies the use of 20–50 high-quality authoritative documents and recommends trusted institutions rather than random blogs. :chatgpt-content-reference{index="2"}
+The capstone requires 20–50 high-quality documents. SentinelRAG satisfies this with 26 verified authoritative cybersecurity sources.
 
 ---
 
@@ -476,7 +476,7 @@ The first project phase currently includes:
 
 `data/sources_manifest.csv`
 
-ويشترط المشروع استخدام ما بين 20 و50 مصدرًا عالي الجودة من جهات موثوقة بدل الاعتماد على المدونات العشوائية كمصادر أساسية. :chatgpt-content-reference{index="3"}
+ويشترط المشروع استخدام ما بين 20 و50 مصدرًا عالي الجودة، ويحقق SentinelRAG ذلك باستخدام 26 مصدرًا موثقًا من جهات موثوقة.
 
 ---
 
