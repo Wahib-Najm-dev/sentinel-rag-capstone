@@ -40,8 +40,18 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
-      - name: Offline unit tests
-        run: python -m unittest discover -s tests -p 'test_ragas*.py' -v
+      - name: Offline standard-library unit tests
+        run: |
+          python - <<'PY'
+          import pathlib, sys, unittest
+          suite = unittest.TestSuite()
+          for path in sorted(pathlib.Path('tests').glob('test_ragas*.py')):
+              if path.name == 'test_ragas_cohere.py':
+                  continue  # Real Ragas dependency contracts run in their dedicated workflow.
+              suite.addTests(unittest.defaultTestLoader.discover('tests', pattern=path.name))
+          result = unittest.TextTestRunner(verbosity=2).run(suite)
+          sys.exit(not result.wasSuccessful())
+          PY
       - name: Export real frozen reference evidence
         run: |
           python scripts/prepare_ragas.py
