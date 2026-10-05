@@ -8,6 +8,7 @@ on:
       - 'scripts/prepare_ragas.py'
       - 'tests/test_ragas_preparation.py'
       - 'docs/ragas_evaluation_plan.md'
+      - 'data/eval/ragas20_reference_drafts.json'
       - '.github/workflows/ragas-preparation.yml'
 
 permissions:
@@ -32,6 +33,7 @@ jobs:
             /scripts/
             /tests/
             /data/eval/golden_questions.json
+            /data/eval/ragas20_reference_drafts.json
             /data/index/chroma.sqlite3
       - uses: actions/setup-python@v6
         with:
@@ -61,6 +63,31 @@ jobs:
           print('COHERE_CALLS=0; MODEL_INFERENCE=NOT_RUN; RAGAS_SCORES=NOT_RUN')
           print('SELECTED_IDS=' + ','.join(q['id'] for q in packet['questions']))
           print('GOLD_EVIDENCE_COUNT=' + str(sum(len(q['gold_evidence']) for q in packet['questions'])))
+          PY
+      - name: Validate draft provenance and keep human approval pending
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, pathlib, shutil
+          root = pathlib.Path('.cache/ragas-review')
+          packet = json.loads((root / 'ragas20_reference_review.json').read_text())
+          source = pathlib.Path('data/eval/ragas20_reference_drafts.json')
+          drafts = json.loads(source.read_text())
+          for field in ('golden_git_blob', 'golden_semantic_sha256', 'index_sha256', 'selection_seed'):
+              assert drafts[field] == packet[field], 'Draft provenance mismatch: ' + field
+          assert drafts['status'] == 'ai_assisted_drafts_pending_human_review'
+          assert drafts['reviewed_by'] is None
+          assert drafts['cohere_calls'] == 0 and drafts['ragas_scores'] is None
+          assert len(drafts['questions']) == 20
+          assert [q['id'] for q in drafts['questions']] == [q['id'] for q in packet['questions']]
+          for draft, row in zip(drafts['questions'], packet['questions']):
+              assert draft['supporting_chunk_ids'] == row['gold_chunk_ids']
+              assert isinstance(draft['reference_draft'], str) and draft['reference_draft'].strip()
+              assert draft['review_status'] == 'pending'
+          shutil.copy2(source, root / source.name)
+          print('REFERENCE_DRAFT_STRUCTURE_AND_PROVENANCE=20/20')
+          print('HUMAN_APPROVAL=NOT_CLAIMED; SEMANTIC_REVIEW=PENDING')
+          print('API_CALLS=0; RAGAS_SCORES=NOT_RUN')
           PY
       - uses: actions/upload-artifact@v4
         with:
