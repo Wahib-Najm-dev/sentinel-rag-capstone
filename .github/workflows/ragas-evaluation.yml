@@ -138,6 +138,7 @@ jobs:
           name: ragas-evaluation-state
           path: .ragas-state/
           if-no-files-found: warn
+          include-hidden-files: true
           retention-days: 30
 
       - name: Upload frozen reference provenance
