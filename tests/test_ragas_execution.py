@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 from types import SimpleNamespace
 from scripts.ragas_execution import (IDS, METRICS, Ledger, BudgetExceeded, UncertainRequest,
-    validate_record, references_valid, score_records, snapshot_report)
+    validate_record, references_valid, score_records, score_selected_records, snapshot_report)
 
 
 class Clock:
@@ -134,6 +134,22 @@ class ExecutionTests(unittest.TestCase):
         self.assertNotIn('reference', calls[1])
         self.assertEqual(calls[2]['reference'], 'Fixture reference.')
 
+    def test_selected_subset_scores_without_q01(self):
+        row = {'id':'q03','user_input':'Fixture q03?', 'response':'Fixture answer.',
+               'retrieved_contexts':['Fixture context.'], 'retrieved_chunk_ids':['x']}
+        refs = {'q03': {'user_input':'Fixture q03?', 'reference':'Fixture reference.'}}
+        calls = []
+        class Metric:
+            async def ascore(self, **kwargs):
+                calls.append(kwargs)
+                return SimpleNamespace(value=.75)
+        judge = SimpleNamespace(begin=lambda *args:None)
+        metrics = {name: Metric() for name in METRICS}
+        report = asyncio.run(score_selected_records([row], refs, metrics, judge, self.ledger, ('q03',)))
+        self.assertEqual(report['expected_questions'], 1)
+        self.assertEqual(report['completed_questions'], 1)
+        self.assertEqual(report['questions'][0]['id'], 'q03')
+        self.assertEqual(len(calls), 4)
     def test_nan_never_averaged_as_success(self):
         class BadMetric:
             async def ascore(self, **kwargs): return SimpleNamespace(value=float('nan'))
