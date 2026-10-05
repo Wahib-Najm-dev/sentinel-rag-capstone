@@ -1,0 +1,59 @@
+name: Model artifact integrity
+
+on:
+  push:
+    branches: [fix/openvino-artifact-integrity]
+  pull_request:
+    paths:
+      - 'models/e5_openvino_fp16/**'
+      - '.gitattributes'
+      - '.github/workflows/model-artifact-integrity.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify repository bytes and diagnose line endings
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, pathlib
+          root = pathlib.Path('models/e5_openvino_fp16')
+          manifest = json.loads((root / 'manifest.json').read_text(encoding='utf-8-sig'))
+          sha = lambda data: hashlib.sha256(data).hexdigest()
+          report = {'assets': {}}
+          for name, expected in manifest['files_sha256'].items():
+              data = (root / name).read_bytes()
+              lf = data.replace(b'\r\n', b'\n')
+              crlf = lf.replace(b'\n', b'\r\n')
+              row = {'expected': expected, 'bytes': len(data), 'raw_sha256': sha(data),
+                     'lf_sha256': sha(lf), 'crlf_sha256': sha(crlf),
+                     'raw_matches': sha(data) == expected,
+                     'lf_matches': sha(lf) == expected,
+                     'crlf_matches': sha(crlf) == expected,
+                     'lf_count': data.count(b'\n'), 'crlf_count': data.count(b'\r\n')}
+              report['assets'][name] = row
+              print(name, json.dumps(row, sort_keys=True), flush=True)
+              assert expected in (sha(data), sha(lf), sha(crlf)), 'Unexpected non-line-ending artifact change: ' + name
+          combined = hashlib.sha256()
+          total = 0
+          for part in manifest['parts']:
+              path = root / part['name']
+              assert path.stat().st_size == part['size_bytes'], 'Wrong part size'
+              with path.open('rb') as stream:
+                  for block in iter(lambda: stream.read(1024 * 1024), b''):
+                      combined.update(block)
+                      total += len(block)
+          assert total == manifest['model_bin_size_bytes'], 'Wrong total size'
+          assert combined.hexdigest() == manifest['model_bin_sha256'], 'Weight checksum mismatch'
+          report['weights'] = {'size_bytes': total, 'sha256': combined.hexdigest(), 'verified': True}
+          print('DIAGNOSTIC_REPORT=' + json.dumps(report, sort_keys=True), flush=True)
+          print('COHERE_CALLS=0; RAGAS_CALLS=0; INFERENCE=NOT_RUN; CHROMA_OPENED=NO')
+          PY
