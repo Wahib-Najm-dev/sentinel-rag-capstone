@@ -13,10 +13,13 @@ import http.client
 import json
 import os
 import ssl
+import sys
 import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 PILOT_QID = "q01"
 PILOT_CAP = 13
 REFERENCE_HASH = "5b28da0ae185ca6bb2c7efca6b17e49cad24c37fb8695445ea12eb6807dcdf39"
