@@ -5,8 +5,8 @@ on:
     branches: [eval/ragas-preparation]
   pull_request:
     paths:
-      - 'scripts/prepare_ragas.py'
-      - 'tests/test_ragas_preparation.py'
+      - 'scripts/*ragas*'
+      - 'tests/test_ragas*'
       - 'docs/ragas_evaluation_plan.md'
       - 'data/eval/ragas20_reference_drafts.json'
       - '.github/workflows/ragas-preparation.yml'
@@ -32,6 +32,7 @@ jobs:
           sparse-checkout: |
             /scripts/
             /tests/
+            /docs/ragas_evaluation_plan.md
             /data/eval/golden_questions.json
             /data/eval/ragas20_reference_drafts.json
             /data/index/chroma.sqlite3
@@ -89,9 +90,22 @@ jobs:
           print('HUMAN_APPROVAL=NOT_CLAIMED; SEMANTIC_REVIEW=PENDING')
           print('API_CALLS=0; RAGAS_SCORES=NOT_RUN')
           PY
+      - name: Export original-source context for reference coverage review
+        run: |
+          python scripts/export_ragas_reference_context.py
+          python - <<'PY'
+          import pathlib, shutil
+          root = pathlib.Path('.cache/ragas-review')
+          shutil.copy2('.cache/ragas-reference-context.json', root / 'ragas-reference-context.json')
+          for name in ['scripts/prepare_ragas.py','scripts/export_ragas_reference_context.py','tests/test_ragas_preparation.py','docs/ragas_evaluation_plan.md','data/eval/golden_questions.json','data/eval/ragas20_reference_drafts.json','.github/workflows/ragas-preparation.yml']:
+              target = root / 'source_inputs' / name
+              target.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copy2(name, target)
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: ragas20-reference-review
           path: .cache/ragas-review/
           retention-days: 14
           if-no-files-found: error
+          include-hidden-files: true
