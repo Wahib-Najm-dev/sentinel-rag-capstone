@@ -11,3 +11,6 @@ beautifulsoup4
 ragas
 fastapi
 uvicorn
+onnxruntime
+huggingface_hub
+tokenizers

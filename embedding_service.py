@@ -2,28 +2,23 @@
 import os
 from functools import lru_cache
 
-# Reduce unnecessary CPU-thread memory before importing
-# sentence-transformers / PyTorch.
 os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 os.environ.setdefault("OMP_NUM_THREADS", "1")
 os.environ.setdefault("MKL_NUM_THREADS", "1")
 os.environ.setdefault("MALLOC_ARENA_MAX", "2")
 
 import numpy as np
+import onnxruntime as ort
 from fastapi import FastAPI, HTTPException
+from huggingface_hub import hf_hub_download
 from pydantic import BaseModel
-from sentence_transformers import SentenceTransformer
+from tokenizers import Tokenizer
 
-from src.config import (
-    EMBEDDING_DIMENSION,
-    EMBEDDING_MODEL,
-)
+from src.config import EMBEDDING_DIMENSION, EMBEDDING_MODEL
 
 
-app = FastAPI(
-    title="SentinelRAG Embedding Service",
-    version="1.0.0",
-)
+ONNX_FILENAME = "onnx/model.onnx"
+TOKENIZER_FILENAME = "tokenizer.json"
 
 
 class EmbedQueryRequest(BaseModel):
@@ -31,33 +26,131 @@ class EmbedQueryRequest(BaseModel):
 
 
 @lru_cache(maxsize=1)
-def get_model() -> SentenceTransformer:
-    """
-    Load exactly one copy of the same E5 model used
-    by SentinelRAG local ingestion and evaluation.
-    """
-    return SentenceTransformer(
-        EMBEDDING_MODEL,
-        device="cpu",
-        model_kwargs={
-            "low_cpu_mem_usage": True,
-        },
+def get_tokenizer():
+    tokenizer_path = hf_hub_download(
+        repo_id=EMBEDDING_MODEL,
+        filename=TOKENIZER_FILENAME,
+    )
+
+    tokenizer = Tokenizer.from_file(
+        tokenizer_path
+    )
+
+    tokenizer.enable_truncation(
+        max_length=512
+    )
+
+    return tokenizer
+
+
+@lru_cache(maxsize=1)
+def get_session():
+    model_path = hf_hub_download(
+        repo_id=EMBEDDING_MODEL,
+        filename=ONNX_FILENAME,
+    )
+
+    options = ort.SessionOptions()
+    options.intra_op_num_threads = 1
+    options.inter_op_num_threads = 1
+    options.enable_cpu_mem_arena = False
+    options.enable_mem_pattern = False
+
+    return ort.InferenceSession(
+        model_path,
+        sess_options=options,
+        providers=["CPUExecutionProvider"],
+    )
+
+
+app = FastAPI(
+    title="SentinelRAG Embedding Service",
+    version="2.0.0",
+)
+
+
+def make_embedding(text: str) -> np.ndarray:
+    tokenizer = get_tokenizer()
+    session = get_session()
+
+    encoded = tokenizer.encode(
+        f"query: {text}",
+        add_special_tokens=True,
+    )
+
+    input_ids = np.asarray(
+        [encoded.ids],
+        dtype=np.int64,
+    )
+
+    attention_mask = np.asarray(
+        [encoded.attention_mask],
+        dtype=np.int64,
+    )
+
+    type_ids = np.asarray(
+        [encoded.type_ids],
+        dtype=np.int64,
+    )
+
+    required_inputs = {
+        item.name
+        for item in session.get_inputs()
+    }
+
+    inputs = {
+        "input_ids": input_ids,
+        "attention_mask": attention_mask,
+    }
+
+    if "token_type_ids" in required_inputs:
+        inputs["token_type_ids"] = type_ids
+
+    token_embeddings = session.run(
+        None,
+        inputs,
+    )[0].astype(np.float32)
+
+    mask = attention_mask[
+        ..., None
+    ].astype(np.float32)
+
+    pooled = (
+        token_embeddings * mask
+    ).sum(axis=1) / np.clip(
+        mask.sum(axis=1),
+        1e-9,
+        None,
+    )
+
+    pooled /= np.clip(
+        np.linalg.norm(
+            pooled,
+            axis=1,
+            keepdims=True,
+        ),
+        1e-12,
+        None,
+    )
+
+    return pooled[0].astype(
+        np.float32,
+        copy=False,
     )
 
 
 @app.get("/health")
-def health() -> dict:
+def health():
     return {
         "status": "ok",
         "model": EMBEDDING_MODEL,
+        "backend": "onnxruntime-fp32",
         "dimension": EMBEDDING_DIMENSION,
     }
 
 
 @app.post("/embed-query")
-def embed_query(
-    request: EmbedQueryRequest,
-) -> dict:
+def embed_query(request: EmbedQueryRequest):
     text = request.text.strip()
 
     if not text:
@@ -66,33 +159,21 @@ def embed_query(
             detail="Query text cannot be empty.",
         )
 
-    model = get_model()
+    embedding = make_embedding(text)
 
-    embedding = model.encode(
-        [f"query: {text}"],
-        batch_size=1,
-        show_progress_bar=False,
-        convert_to_numpy=True,
-        normalize_embeddings=True,
-    )[0].astype(
-        np.float32,
-        copy=False,
-    )
-
-    if embedding.shape != (
-        EMBEDDING_DIMENSION,
-    ):
+    if embedding.shape != (EMBEDDING_DIMENSION,):
         raise HTTPException(
             status_code=500,
-            detail=(
-                "Unexpected embedding dimension: "
-                f"{embedding.shape}"
-            ),
+            detail="Unexpected embedding dimension.",
         )
 
-    # Force a stable little-endian float32 representation
-    # before sending the vector over Railway private network.
-    embedding_bytes = embedding.astype(
+    if not np.isfinite(embedding).all():
+        raise HTTPException(
+            status_code=500,
+            detail="Embedding contains non-finite values.",
+        )
+
+    raw = embedding.astype(
         "<f4",
         copy=False,
     ).tobytes()
@@ -101,7 +182,8 @@ def embed_query(
         "dimension": EMBEDDING_DIMENSION,
         "dtype": "float32",
         "normalized": True,
+        "backend": "onnxruntime-fp32",
         "embedding_b64": base64.b64encode(
-            embedding_bytes
+            raw
         ).decode("ascii"),
     }

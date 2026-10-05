@@ -10,3 +10,6 @@ requests
 beautifulsoup4
 fastapi
 uvicorn
+onnxruntime
+huggingface_hub
+tokenizers
