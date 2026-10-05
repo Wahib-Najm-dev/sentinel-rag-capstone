@@ -1,0 +1,13 @@
+FROM python:3.11-slim
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 RAGAS_DO_NOT_TRACK=true
+WORKDIR /app
+COPY requirements-ragas-pilot.txt .
+RUN pip install --no-cache-dir -r requirements-ragas-pilot.txt && pip check
+COPY src ./src
+COPY scripts ./scripts
+COPY data/eval/golden_questions.json ./data/eval/golden_questions.json
+COPY data/eval/ragas20_reference_review_spec.json ./data/eval/ragas20_reference_review_spec.json
+COPY data/eval/ragas20_reference_approval.json ./data/eval/ragas20_reference_approval.json
+COPY data/index ./data/index
+RUN python scripts/run_q01_ragas_pilot.py --validate-only
+CMD ["python","scripts/run_q01_ragas_pilot.py"]
