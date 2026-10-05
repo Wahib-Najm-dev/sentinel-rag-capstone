@@ -1,0 +1,34 @@
+{
+  "model": "intfloat/multilingual-e5-small",
+  "format": "openvino-ir-fp16",
+  "dimension": 384,
+  "model_bin_size_bytes": 235016130,
+  "model_bin_sha256": "0862247181afba7ed18801ddd725094bd6786915441cda628aafbcf5af040f90",
+  "parts": [
+    {
+      "name": "model.bin.part001",
+      "size_bytes": 78643200
+    },
+    {
+      "name": "model.bin.part002",
+      "size_bytes": 78643200
+    },
+    {
+      "name": "model.bin.part003",
+      "size_bytes": 77729730
+    }
+  ],
+  "files_sha256": {
+    "model.xml": "062b86854c8eef9d17b376e1293d6ef08430e3fc32a57e407c70e21675995327",
+    "tokenizer.json": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39"
+  },
+  "openvino_package_version": "2026.4.1",
+  "runtime_dependency_versions": {
+    "openvino": "2026.4.1",
+    "numpy": "2.4.6",
+    "tokenizers": "0.23.2",
+    "fastapi": "0.142.2",
+    "uvicorn": "0.54.0",
+    "pydantic": "2.13.5"
+  }
+}
