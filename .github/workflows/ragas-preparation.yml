@@ -1,0 +1,70 @@
+name: RAGAS offline preparation
+
+on:
+  push:
+    branches: [eval/ragas-preparation]
+  pull_request:
+    paths:
+      - 'scripts/prepare_ragas.py'
+      - 'tests/test_ragas_preparation.py'
+      - 'docs/ragas_evaluation_plan.md'
+      - '.github/workflows/ragas-preparation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ragas-preparation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      RAGAS_DO_NOT_TRACK: 'true'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/
+            /tests/
+            /data/eval/golden_questions.json
+            /data/index/chroma.sqlite3
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Unit tests without third-party packages
+        run: python -m unittest discover -s tests -p test_ragas_preparation.py -v
+      - name: Prepare real gold evidence using read-only SQLite
+        run: |
+          python scripts/prepare_ragas.py
+          python scripts/prepare_ragas.py --prepare-review
+      - name: Confirm missing references block readiness and database is unchanged
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, pathlib, subprocess, sys
+          path = pathlib.Path('.cache/ragas-review/ragas20_reference_review.json')
+          packet = json.loads(path.read_text())
+          assert len(packet['questions']) == 20
+          assert packet['scores'] is None
+          assert packet['api_calls_performed'] == 0
+          result = subprocess.run([sys.executable, 'scripts/prepare_ragas.py', '--check-reviewed', str(path)])
+          assert result.returncode == 2, 'Unreviewed references must not be evaluation-ready'
+          subprocess.run(['git', 'diff', '--exit-code', '--', 'data/index/chroma.sqlite3', 'data/eval/golden_questions.json'], check=True)
+          print('REAL_GOLD_EVIDENCE_EXPORT=PASSED')
+          print('UNREVIEWED_REFERENCES_BLOCKED=PASSED')
+          print('READ_ONLY_INDEX_CHECK=PASSED')
+          print('COHERE_CALLS=0; MODEL_INFERENCE=NOT_RUN; RAGAS_SCORES=NOT_RUN')
+          print('SELECTED_IDS=' + ','.join(q['id'] for q in packet['questions']))
+          print('GOLD_EVIDENCE_COUNT=' + str(sum(len(q['gold_evidence']) for q in packet['questions'])))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ragas20-reference-review
+          path: .cache/ragas-review/
+          retention-days: 14
+          if-no-files-found: error
