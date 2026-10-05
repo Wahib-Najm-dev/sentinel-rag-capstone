@@ -1,16 +1,20 @@
-﻿streamlit
+streamlit
 cohere
 chromadb
 sentence-transformers==6.1.0
 rank-bm25
 PyMuPDF
 python-dotenv
-numpy
 requests
 beautifulsoup4
 ragas
-fastapi
-uvicorn
 onnxruntime
 huggingface_hub
-tokenizers
+
+# Pinned dependencies used by the standalone OpenVINO embedding service.
+openvino==2026.4.1
+numpy==2.4.6
+tokenizers==0.23.2
+fastapi==0.142.2
+uvicorn==0.54.0
+pydantic==2.13.5

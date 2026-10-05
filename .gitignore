@@ -1,4 +1,4 @@
-﻿# Virtual environments
+# Virtual environments
 .venv/
 venv/
 env/
@@ -48,3 +48,10 @@ data/raw/*
 !data/raw/.gitkeep
 
 # Generated vector / lexical indexes
+
+# Local conversion output and assembled weights (parts remain tracked).
+/tmp_openvino_e5/
+/models/e5_openvino_fp16/model.bin
+/src/embeddings.py.backup
+/apply_openvino_service.py
+/apply_openvino_service_fixed.py
