@@ -4,15 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       scope:
-        description: "q01 pilot or complete frozen 20-question evaluation"
+        description: "Evaluate the 19 frozen questions remaining after successful q01 pilot"
         required: true
         type: choice
         options:
-          - q01
-          - all20
-        default: q01
+          - remaining19
+        default: remaining19
       confirm:
-        description: "Type APPROVE-Q01-13 or APPROVE-ALL20-260 exactly"
+        description: "Type APPROVE-REMAINING19-247 exactly"
         required: true
         type: string
       resume_run_id:
@@ -74,7 +73,7 @@ jobs:
               scope=os.environ.get("MANUAL_SCOPE","")
               confirm=os.environ.get("MANUAL_CONFIRM","")
               resume=os.environ.get("MANUAL_RESUME","")
-          expected={"q01":"APPROVE-Q01-13","all20":"APPROVE-ALL20-260"}
+          expected={"remaining19":"APPROVE-REMAINING19-247"}
           if scope not in expected or confirm!=expected[scope]:
               raise SystemExit("Explicit evaluation authorization is missing or mismatched.")
           with out.open("a") as f:
